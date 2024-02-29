@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 #include <conio.h>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
@@ -15,6 +17,10 @@ using namespace std;
 
 string loggedInUserID = "";
 
+// ========== xu ly giao dien
+void sleepFor(int milliseconds) {
+    this_thread::sleep_for(chrono::milliseconds(milliseconds));
+}
 
 void gotoxy(int x, int y) {
     COORD coord;
@@ -22,6 +28,8 @@ void gotoxy(int x, int y) {
     coord.Y = y;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
+// ==========
+
 
 // read file account
 int authenticateUser(const string& username, const string& password, int& userType) {
@@ -124,7 +132,7 @@ void loginScreen() {
         }
         else {
             gotoxy(30, 15);
-            cout << "Nguoi dung khong ton tai! Vui long thu lai." << endl;
+            cout << "Tai khoan khong hop le! Vui long thu lai." << endl;
             cin.get();  // Dừng màn hình để người dùng đọc thông báo
         }
     }
@@ -237,12 +245,102 @@ void RegistrarScreen() {
     } while (true);
 }
 
+void writePasswordToFile(const string& targetUserId, const string& newPassword) {
+    string filename = "account.csv";
+    ifstream infile(filename);
+    ofstream outfile("temp.csv");
+
+    if (infile.is_open() && outfile.is_open()) {
+        string line;
+
+        // Đọc dòng đầu tiên và ghi lại vào file temp.csv
+        getline(infile, line);
+        outfile << line << endl;
+
+        while (getline(infile, line)) {
+            stringstream ss(line);
+            string userId, username, password, userTypeStr;
+
+            getline(ss, userId, ';');
+            getline(ss, username, ';');
+            getline(ss, password, ';');
+            getline(ss, userTypeStr, ';');
+
+            if (userId == targetUserId) {
+                // Nếu đúng UserId, thay đổi mật khẩu và ghi vào file temp.csv
+                outfile << userId << ';' << username << ';' << newPassword << ';' << userTypeStr << ';' << endl;
+            }
+            else {
+                // Nếu không phải UserId cần thay đổi, ghi lại dòng đó vào file temp.csv
+                outfile << line << endl;
+            }
+        }
+
+        infile.close();
+        outfile.close();
+
+        // Đóng tệp gốc
+        infile.open(filename, ios::out | ios::trunc);
+        infile.close();
+
+        // xóa file gốc
+        remove(filename.c_str());
+
+        // Mở tệp temp và đổi tên thành tên của tệp gốc
+        rename("temp.csv", filename.c_str());
+    }
+    else {
+        cout << "Khong mo duoc file" << endl;
+    }
+}
+
 void changePassword() {
     system("cls");
 
-    gotoxy(30, 10);
-    cout << "Thay doi password";
+    string oldPassword, newPassword, confirmNewPassword;
+    UserInfo currentUser = getUserInfoById(loggedInUserID);
 
+    do {
+        gotoxy(34, 10);
+        cout << "Nhap mat khau cu: ";
+        cin >> oldPassword;
+       
+
+        // Kiểm tra mật khẩu cũ (Đây chỉ là ví dụ, bạn có thể thay thế bằng hàm xác nhận từ database)
+        if (oldPassword != currentUser.password) {
+            gotoxy(34, 11);
+            cout << "Mat khau cu khong dung. Vui long nhap lai.";
+            sleepFor(500); // Dừng chương trình trong 2 giây
+            gotoxy(34, 11);
+            cout << "                                                        ";
+
+        }
+    } while (oldPassword != currentUser.password);
+
+    do {
+        gotoxy(34, 12);
+        cout << "Nhap mat khau moi: ";
+        cin >> newPassword;
+
+        gotoxy(34, 14);
+        cout << "Xac nhan mat khau moi: ";
+        cin >> confirmNewPassword;
+
+        // Kiểm tra xác nhận mật khẩu mới
+        if (newPassword != confirmNewPassword) {
+            gotoxy(34, 15);
+            cout << "Mat khau moi va xac nhan khong khop. Vui long nhap lai.";
+            sleepFor(500); // Dừng chương trình trong 2 giây
+            gotoxy(34, 15);
+            cout << "                                                           "; // Xóa thông báo lỗi
+        }
+    } while (newPassword != confirmNewPassword);
+
+    writePasswordToFile(loggedInUserID, confirmNewPassword);
+
+    gotoxy(32, 16);
+    cout << "=> Thay doi mat khau thanh cong." << endl;
+    
     _getch();
 }
 
@@ -272,6 +370,4 @@ void showProfileInfo(int selectedOption) {
 
 void run() {
     loginScreen();
-    //vector<UserProfile> users = readBinaryFile("user.bin");
-    //displayUserProfile(users, loggedInUserID);
 }
