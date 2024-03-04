@@ -23,11 +23,18 @@ struct UserProfile {
     string email;
 };
 
+struct YearInfo {
+    string id;
+    string year;
+};
+
 void showLoginScreen(int userType);
 void loginScreen();
 int authenticateUser(const string& username, const string& password, int& userType);
 void RegistrarScreen();
 void StudentScreen();
+void createYear();
+void createClass();
 
 void showProfileInfo(int selectedOption);
 void changePassword();
