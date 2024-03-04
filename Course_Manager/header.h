@@ -28,6 +28,15 @@ struct YearInfo {
     string year;
 };
 
+struct Student {
+    string mssv;
+    string fullName;
+    string gender;
+    string dateOfBirth;
+    string idCard;
+    string expires;
+};
+
 void showLoginScreen(int userType);
 void loginScreen();
 int authenticateUser(const string& username, const string& password, int& userType);
@@ -35,6 +44,8 @@ void RegistrarScreen();
 void StudentScreen();
 void createYear();
 void createClass();
+
+void showListStudent();
 
 void showProfileInfo(int selectedOption);
 void changePassword();

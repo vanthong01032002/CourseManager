@@ -8,6 +8,7 @@
 #include <conio.h>
 #include <chrono>
 #include <thread>
+#include <iomanip>
 
 using namespace std;
 
@@ -34,7 +35,7 @@ void gotoxy(int x, int y) {
 
 // read file account
 int authenticateUser(const string& username, const string& password, int& userType) {
-    ifstream file("account.csv");
+    ifstream file("Account.csv");
 
     if (file.is_open()) {
         string line;
@@ -69,7 +70,7 @@ int authenticateUser(const string& username, const string& password, int& userTy
 
 //find id account
 UserInfo getUserInfoById(const string& userId) {
-    ifstream file("account.csv");
+    ifstream file("Account.csv");
 
     if (file.is_open()) {
         string line;
@@ -169,19 +170,95 @@ void drawMenuRegistrar(int selectedOption) {
     gotoxy(34, 14);
     cout << (selectedOption == 1 ? "> " : "  ") << "Tao lop hoc" << endl;
     gotoxy(34, 16);
-    cout << (selectedOption == 2 ? "> " : "  ") << "Quan ly tai khoan" << endl;
+    cout << (selectedOption == 2 ? "> " : "  ") << "Quan ly sinh vien" << endl;
     gotoxy(34, 18);
-    cout << (selectedOption == 3 ? "> " : "  ") << "Dang xuat" << endl;
+    cout << (selectedOption == 3 ? "> " : "  ") << "Quan ly tai khoan" << endl;
     gotoxy(34, 20);
-    cout << (selectedOption == 4 ? "> " : "  ") << "Thoat" << endl;
+    cout << (selectedOption == 4 ? "> " : "  ") << "Dang xuat" << endl;
+    gotoxy(34, 22);
+    cout << (selectedOption == 5 ? "> " : "  ") << "Thoat" << endl;
 }
+
+void drawMenuStudent(int selectedOption) {
+    system("cls");
+    gotoxy(34, 10);
+    cout << "===== QUAN LY SINH VIEN =====" << endl;
+    gotoxy(34, 12);
+    cout << (selectedOption == 0 ? "> " : "  ") << "Xem danh sach sinh vien" << endl;
+    gotoxy(34, 14);
+    cout << (selectedOption == 1 ? "> " : "  ") << "Them sinh vien vao lop hoc" << endl;
+    gotoxy(34, 16);
+    cout << (selectedOption == 2 ? "> " : "  ") << "Thoat" << endl;
+}
+
+void showListStudent() {
+    system("cls");
+    gotoxy(36, 4);
+    cout << "Danh sach sinh vien" << endl;
+
+    ifstream file("user.csv");
+
+    if (!file.is_open()) {
+        gotoxy(34, 12);
+        cout << "Khong mo duoc file.";
+        cin.get();
+        return;
+    }
+
+    // Đọc dòng đầu tiên và bỏ qua
+    string header;
+    getline(file, header);
+
+    // Hiển thị tiêu đề của bảng
+    gotoxy(14, 6);
+    cout << left << setw(10) << "MSSV" << setw(25) << "Full Name" << setw(10) << "Gender" << setw(15) << "Date of Birth"
+        << setw(15) << "ID Card" << setw(15) << "Expires" << endl;
+
+    int row = 8;
+
+    // Đọc và hiển thị thông tin từ file
+    string line;
+    while (getline(file, line)) {
+        stringstream ss(line);
+        Student student;
+        getline(ss, student.mssv, ';');
+        getline(ss, student.fullName, ';');
+        getline(ss, student.gender, ';');
+        getline(ss, student.dateOfBirth, ';');
+        getline(ss, student.idCard, ';');
+        getline(ss, student.expires, ';');
+
+        // Hiển thị thông tin sinh viên
+        gotoxy(14, row);
+        cout << left << setw(10) << student.mssv << setw(25) << student.fullName << setw(10) << student.gender
+            << setw(15) << student.dateOfBirth << setw(15) << student.idCard << setw(15) << student.expires << endl;
+
+        row += 2; // Di chuyển xuống để hiển thị thông tin sinh viên tiếp theo
+    }
+
+    file.close();
+
+    cin.get();
+}
+
+void addStudentToClass() {
+    system("cls");
+    gotoxy(36, 4);
+    cout << "Them sinh vien vao lop hoc" << endl;
+
+
+
+
+    cin.get();
+}
+
 
 void RegistrarScreen() {
     int selectedOption = 0;
     bool returnToMainMenu = false;
 
     do {
-        system("cls");  // Xóa màn hình console
+        system("cls");  // Clear console screen
         int windowHeight = GetSystemMetrics(SM_CYSCREEN);
         int windowWidth = GetSystemMetrics(SM_CXSCREEN);
 
@@ -189,29 +266,63 @@ void RegistrarScreen() {
         int centerY = windowHeight / 2;
 
         gotoxy(centerX - 15, centerY - 2);
-
         drawMenuRegistrar(selectedOption);
 
         switch (_getch()) {
         case KEY_UP:
-            selectedOption = (selectedOption - 1 + 4) % 4;
+            selectedOption = (selectedOption - 1 + 6) % 6;
             break;
         case KEY_DOWN:
-            selectedOption = (selectedOption + 1) % 4;
+            selectedOption = (selectedOption + 1) % 6;
             break;
         case KEY_ENTER:
             if (selectedOption == 0) {
                 createYear();
             }
-
-            if (selectedOption == 1) {
+            else if (selectedOption == 1) {
                 createClass();
             }
-
             else if (selectedOption == 2) {
+                int selectedOption_student = 0;
+                do {
+                    system("cls");  // Clear console screen
+                    int windowHeighta = GetSystemMetrics(SM_CYSCREEN);
+                    int windowWidtha = GetSystemMetrics(SM_CXSCREEN);
+
+                    int centerXa = windowWidtha / 2;
+                    int centerYa = windowHeighta / 2;
+
+                    gotoxy(centerXa - 15, centerYa - 2);
+                    drawMenuStudent(selectedOption_student);
+
+                    switch (_getch()) {
+                    case KEY_UP:
+                        selectedOption_student = (selectedOption_student - 1 + 3) % 3;
+                        break;
+                    case KEY_DOWN:
+                        selectedOption_student = (selectedOption_student + 1) % 3;
+                        break;
+                    case KEY_ENTER:
+                        if (selectedOption_student == 0) {
+                            showListStudent();
+                        }
+                        else if (selectedOption_student == 1) {
+                            // Action for option 1
+                        }
+                        else if (selectedOption_student == 2) {
+                            returnToMainMenu = true;
+                        }
+                        break;
+                    }
+                } while (!returnToMainMenu);
+
+                // Reset returnToMainMenu for the main loop
+                returnToMainMenu = false;
+            }
+            else if (selectedOption == 3) {
                 int selectedOption_account = 0;
                 do {
-                    system("cls");  // Xóa màn hình console
+                    system("cls");  // Clear console screen
                     int windowHeighta = GetSystemMetrics(SM_CYSCREEN);
                     int windowWidtha = GetSystemMetrics(SM_CXSCREEN);
 
@@ -222,37 +333,38 @@ void RegistrarScreen() {
                     showProfileInfo(selectedOption_account);
 
                     switch (_getch()) {
-                        case KEY_UP:
-                            selectedOption_account = (selectedOption_account - 1 + 4) % 4;
-                            break;
-                        case KEY_DOWN:
-                            selectedOption_account = (selectedOption_account + 1) % 4;
-                            break;
-                        case KEY_ENTER:
-                            if (selectedOption_account == 0) {
-                                changePassword();
-                            }
-                            else if (selectedOption_account == 1){
-                                returnToMainMenu = true;
-                            }
-                            break;
+                    case KEY_UP:
+                        selectedOption_account = (selectedOption_account - 1 + 2) % 2;
+                        break;
+                    case KEY_DOWN:
+                        selectedOption_account = (selectedOption_account + 1) % 2;
+                        break;
+                    case KEY_ENTER:
+                        if (selectedOption_account == 0) {
+                            changePassword();
+                        }
+                        else if (selectedOption_account == 1) {
+                            returnToMainMenu = true;
+                        }
+                        break;
                     }
                 } while (!returnToMainMenu);
-               
+
+                // Reset returnToMainMenu for the main loop
+                returnToMainMenu = false;
             }
-            else if (selectedOption == 3) {
+            else if (selectedOption == 4) {
                 // logout
                 loggedInUserID = "";
                 loginScreen();
             }
-            else if (selectedOption == 4) {
+            else if (selectedOption == 5) {
                 exit(0);
             }
             break;
         }
     } while (true);
 }
-
 
 // tạo năm học mới
 string formatId_year(int id) {
@@ -441,7 +553,6 @@ void createClass() {
     gotoxy(30, 12);
     cout << "Lop hoc da duoc tao " << newClass << " voi ID " << newId;
     cin.get();
-\
 }
 
 
