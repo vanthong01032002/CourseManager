@@ -168,7 +168,7 @@ void drawMenuRegistrar(int selectedOption) {
     gotoxy(34, 12);
     cout << (selectedOption == 0 ? "> " : "  ") << "Tao nam hoc moi" << endl;
     gotoxy(34, 14);
-    cout << (selectedOption == 1 ? "> " : "  ") << "Tao lop hoc" << endl;
+    cout << (selectedOption == 1 ? "> " : "  ") << "Quan ly lop hoc" << endl;
     gotoxy(34, 16);
     cout << (selectedOption == 2 ? "> " : "  ") << "Quan ly sinh vien" << endl;
     gotoxy(34, 18);
@@ -177,6 +177,18 @@ void drawMenuRegistrar(int selectedOption) {
     cout << (selectedOption == 4 ? "> " : "  ") << "Dang xuat" << endl;
     gotoxy(34, 22);
     cout << (selectedOption == 5 ? "> " : "  ") << "Thoat" << endl;
+}
+
+void drawMenuClass(int selectedOption) {
+    system("cls");
+    gotoxy(34, 10);
+    cout << "===== QUAN LY LOP HOC =====" << endl;
+    gotoxy(34, 12);
+    cout << (selectedOption == 0 ? "> " : "  ") << "Tao lop hoc" << endl;
+    gotoxy(34, 14);
+    cout << (selectedOption == 1 ? "> " : "  ") << "Xem danh sach lop hoc" << endl;
+    gotoxy(34, 16);
+    cout << (selectedOption == 2 ? "> " : "  ") << "Thoat" << endl;
 }
 
 void drawMenuStudent(int selectedOption) {
@@ -280,7 +292,41 @@ void RegistrarScreen() {
                 createYear();
             }
             else if (selectedOption == 1) {
-                createClass();
+                int selectedOption_class = 0;
+                do {
+                    system("cls");  // Clear console screen
+                    int windowHeighta = GetSystemMetrics(SM_CYSCREEN);
+                    int windowWidtha = GetSystemMetrics(SM_CXSCREEN);
+
+                    int centerXa = windowWidtha / 2;
+                    int centerYa = windowHeighta / 2;
+
+                    gotoxy(centerXa - 15, centerYa - 2);
+                    drawMenuClass(selectedOption_class);
+
+                    switch (_getch()) {
+                    case KEY_UP:
+                        selectedOption_class = (selectedOption_class - 1 + 3) % 3;
+                        break;
+                    case KEY_DOWN:
+                        selectedOption_class = (selectedOption_class + 1) % 3;
+                        break;
+                    case KEY_ENTER:
+                        if (selectedOption_class == 0) {
+                            createClass();
+                        }
+                        else if (selectedOption_class == 1) {
+                            showListClass();
+                        }
+                        else if (selectedOption_class == 2) {
+                            returnToMainMenu = true;
+                        }
+                        break;
+                    }
+                } while (!returnToMainMenu);
+
+                // Reset returnToMainMenu for the main loop
+                returnToMainMenu = false;
             }
             else if (selectedOption == 2) {
                 int selectedOption_student = 0;
@@ -555,6 +601,52 @@ void createClass() {
     cin.get();
 }
 
+// Hiển thị danh sách lớp học
+void showListClass() {
+    system("cls");
+    gotoxy(36, 4);
+    cout << "Danh sach sinh vien" << endl;
+
+    ifstream file("Class.csv");
+
+    if (!file.is_open()) {
+        gotoxy(34, 12);
+        cout << "Khong mo duoc file.";
+        cin.get();
+        return;
+    }
+
+    // Đọc dòng đầu tiên và bỏ qua
+    string header;
+    getline(file, header);
+
+    // Hiển thị tiêu đề của bảng
+    gotoxy(14, 6);
+    cout << left << setw(10) << "ID" << setw(25) << "Name class" <<  endl;
+
+    int row = 8;
+
+    // Đọc và hiển thị thông tin từ file
+    string line;
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string classID, className;
+
+        // Trích xuất thông tin của lớp học từ dòng CSV
+        getline(ss, classID, ';');
+        getline(ss, className, ';');
+
+        // Hiển thị thông tin sinh viên
+        gotoxy(14, row);
+        cout << left << setw(10) << classID << setw(25) << className << setw(10) << endl;
+
+        row += 2; // Di chuyển xuống để hiển thị thông tin sinh viên tiếp theo
+    }
+
+    file.close();
+
+    cin.get();
+}
 
 //
 void writePasswordToFile(const string& targetUserId, const string& newPassword) {

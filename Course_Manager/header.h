@@ -44,7 +44,7 @@ void RegistrarScreen();
 void StudentScreen();
 void createYear();
 void createClass();
-
+void showListClass();
 void showListStudent();
 
 void showProfileInfo(int selectedOption);
