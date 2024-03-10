@@ -42,10 +42,23 @@ struct Date {
 
 struct Semester
 {
+    string id;
     int semesterNumber;
     string academicYear;
     Date start_date;
     Date end_date;
+};
+
+struct Course {
+    string id;
+    string semesterID;
+    string courseName;
+    string className;
+    string teacherName;
+    int credit;
+    int maxStudents;
+    string dayOfWeek; // For example: MON / TUE / WED / THU / FRI / SAT
+    string session; // For example: S1 (07:30), S2 (09:30), S3(13:30) and S4 (15:30))
 };
 
 struct Student {
@@ -63,6 +76,7 @@ void RegistrarScreen();
 void drawMenuRegistrar(int selectedOption);
 void drawMenuClass(int selectedOption);
 void drawMenuStudent(int selectedOption);
+void drawMenuCourse(int selectedOption);
 
 void showLoginScreen(int userType);
 void loginScreen();
@@ -91,6 +105,9 @@ void showListClass();
 
 void showListStudent();
 void addStudentToClass();
+
+string formatId_course(int id);
+void createCourse();
 
 //vector<UserProfile> readBinaryFile(const string& filename);
 //void displayUserProfile(const vector<UserProfile>& users, const string& loggedInUserID);

@@ -39,6 +39,9 @@
     <ClCompile Include="student.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="course.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="account.txt" />

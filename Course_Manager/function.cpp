@@ -31,15 +31,17 @@ void drawMenuRegistrar(int selectedOption) {
     gotoxy(34, 14);
     cout << (selectedOption == 1 ? "> " : "  ") << "Tao hoc ki moi" << endl;
     gotoxy(34, 16);
-    cout << (selectedOption == 2 ? "> " : "  ") << "Quan ly lop hoc" << endl;
+    cout << (selectedOption == 2 ? "> " : "  ") << "Quan ly khoa hoc" << endl;
     gotoxy(34, 18);
-    cout << (selectedOption == 3 ? "> " : "  ") << "Quan ly sinh vien" << endl;
+    cout << (selectedOption == 3 ? "> " : "  ") << "Quan ly lop hoc" << endl;
     gotoxy(34, 20);
-    cout << (selectedOption == 4 ? "> " : "  ") << "Quan ly tai khoan" << endl;
+    cout << (selectedOption == 4 ? "> " : "  ") << "Quan ly sinh vien" << endl;
     gotoxy(34, 22);
-    cout << (selectedOption == 5 ? "> " : "  ") << "Dang xuat" << endl;
+    cout << (selectedOption == 5 ? "> " : "  ") << "Quan ly tai khoan" << endl;
     gotoxy(34, 24);
-    cout << (selectedOption == 6 ? "> " : "  ") << "Thoat" << endl;
+    cout << (selectedOption == 6 ? "> " : "  ") << "Dang xuat" << endl;
+    gotoxy(34, 26);
+    cout << (selectedOption == 7 ? "> " : "  ") << "Thoat" << endl;
 }
 
 void drawMenuClass(int selectedOption) {
@@ -54,7 +56,7 @@ void drawMenuClass(int selectedOption) {
     cout << (selectedOption == 2 ? "> " : "  ") << "Thoat" << endl;
 }
 
-void drawMenuStudent(int selectedOption) {
+void drawMenuStudent(int selectedOption){
     system("cls");
     gotoxy(34, 10);
     cout << "===== QUAN LY SINH VIEN =====" << endl;
@@ -64,6 +66,26 @@ void drawMenuStudent(int selectedOption) {
     cout << (selectedOption == 1 ? "> " : "  ") << "Them sinh vien vao lop hoc" << endl;
     gotoxy(34, 16);
     cout << (selectedOption == 2 ? "> " : "  ") << "Thoat" << endl;
+}
+
+void drawMenuCourse(int selectedOption) {
+    system("cls");
+    gotoxy(34, 10);
+    cout << "===== QUAN LY KHOA HOC =====" << endl;
+    gotoxy(34, 12);
+    cout << (selectedOption == 0 ? "> " : "  ") << "Tao khoa hoc" << endl;
+    gotoxy(34, 14);
+    cout << (selectedOption == 1 ? "> " : "  ") << "Xem danh sach khoa hoc" << endl;
+    gotoxy(34, 16);
+    cout << (selectedOption == 2 ? "> " : "  ") << "Cap nhat khoa hoc" << endl;
+    gotoxy(34, 18);
+    cout << (selectedOption == 3 ? "> " : "  ") << "Xoa khoa hoc" << endl;
+    gotoxy(34, 20);
+    cout << (selectedOption == 4 ? "> " : "  ") << "Them sinh vien vao khoa hoc" << endl;
+    gotoxy(34, 22);
+    cout << (selectedOption == 5 ? "> " : "  ") << "Xoa sinh vien vao khoa hoc" << endl;
+    gotoxy(34, 24);
+    cout << (selectedOption == 6 ? "> " : "  ") << "Thoat" << endl;
 }
 
 void RegistrarScreen() {
@@ -83,10 +105,10 @@ void RegistrarScreen() {
 
         switch (_getch()) {
         case KEY_UP:
-            selectedOption = (selectedOption - 1 + 6) % 6;
+            selectedOption = (selectedOption - 1 + 8) % 8;
             break;
         case KEY_DOWN:
-            selectedOption = (selectedOption + 1) % 6;
+            selectedOption = (selectedOption + 1) % 8;
             break;
         case KEY_ENTER:
             if (selectedOption == 0) {
@@ -96,6 +118,44 @@ void RegistrarScreen() {
                 createSemester();
             }
             else if (selectedOption == 2) {
+                int selectedOption_course = 0;
+                do {
+                    system("cls");  // Clear console screen
+                    int windowHeighta = GetSystemMetrics(SM_CYSCREEN);
+                    int windowWidtha = GetSystemMetrics(SM_CXSCREEN);
+
+                    int centerXa = windowWidtha / 2;
+                    int centerYa = windowHeighta / 2;
+
+                    gotoxy(centerXa - 15, centerYa - 2);
+                    drawMenuCourse(selectedOption_course);
+
+                    switch (_getch()) {
+                    case KEY_UP:
+                        selectedOption_course = (selectedOption_course - 1 + 7) % 7;
+                        break;
+                    case KEY_DOWN:
+                        selectedOption_course = (selectedOption_course + 1) % 7;
+                        break;
+                    case KEY_ENTER:
+                        if (selectedOption_course == 0) {
+                            createCourse();
+                        }
+                        else if (selectedOption_course == 1) {
+                            
+                        }
+                        else if (selectedOption_course == 6) {
+                            returnToMainMenu = true;
+                        }
+                        break;
+                    }
+                } while (!returnToMainMenu);
+
+                // Reset returnToMainMenu for the main loop
+                returnToMainMenu = false;
+            }
+
+            else if (selectedOption == 3) {
                 int selectedOption_class = 0;
                 do {
                     system("cls");  // Clear console screen
@@ -132,7 +192,7 @@ void RegistrarScreen() {
                 // Reset returnToMainMenu for the main loop
                 returnToMainMenu = false;
             }
-            else if (selectedOption == 3) {
+            else if (selectedOption == 4) {
                 int selectedOption_student = 0;
                 do {
                     system("cls");  // Clear console screen
@@ -169,7 +229,7 @@ void RegistrarScreen() {
                 // Reset returnToMainMenu for the main loop
                 returnToMainMenu = false;
             }
-            else if (selectedOption == 4) {
+            else if (selectedOption == 5) {
                 int selectedOption_account = 0;
                 do {
                     system("cls");  // Clear console screen
@@ -203,12 +263,12 @@ void RegistrarScreen() {
                 // Reset returnToMainMenu for the main loop
                 returnToMainMenu = false;
             }
-            else if (selectedOption == 5) {
+            else if (selectedOption == 6) {
                 // logout
                 userIdLogin = "";
                 loginScreen();
             }
-            else if (selectedOption == 6) {
+            else if (selectedOption == 7) {
                 exit(0);
             }
             break;

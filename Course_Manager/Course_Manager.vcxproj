@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="academic_year.cpp" />
     <ClCompile Include="class.cpp" />
+    <ClCompile Include="course.cpp" />
     <ClCompile Include="function.cpp" />
     <ClCompile Include="header.h" />
     <ClCompile Include="main.cpp" />
