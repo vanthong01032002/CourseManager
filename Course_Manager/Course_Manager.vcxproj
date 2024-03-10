@@ -127,9 +127,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="academic_year.cpp" />
+    <ClCompile Include="class.cpp" />
     <ClCompile Include="function.cpp" />
     <ClCompile Include="header.h" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="semester.cpp" />
+    <ClCompile Include="student.cpp" />
+    <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="account.txt" />
