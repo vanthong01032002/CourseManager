@@ -13,6 +13,28 @@ string formatId_course(int id) {
 	return formattedId;
 }
 
+bool isValidDayOfWeek(const string& dayOfWeek) {
+	string validDays[] = { "MON", "TUE", "WED", "THU", "FRI", "SAT" };
+
+	for (const string& validDay : validDays) {
+		if (dayOfWeek == validDay) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool isValidSession(const string& session) {
+	string validSessions[] = { "S1 (07:30)", "S2 (09:30)", "S3 (13:30)", "S4 (15:30)" };
+
+	for (const string& validSession : validSessions) {
+		if (session == validSession) {
+			return true;
+		}
+	}
+	return false; 
+}
+
 void createCourse() {
 	system("cls");
 	gotoxy(30, 10);
@@ -51,6 +73,20 @@ void createCourse() {
 	gotoxy(30, 24);
 	cout << "Nhap hoc ki: ";
 	getline(cin, course.semesterID);
+
+	if (!isValidDayOfWeek(course.dayOfWeek)) {
+		gotoxy(30, 26);
+		cout << "Ngay hoc khong hop le. Tao khoa hoc that bai.";
+		cin.get();
+		return;
+	}
+
+	if (!isValidSession(course.dayOfWeek)) {
+		gotoxy(30, 26);
+		cout << "Thoi gian hoc khong hop le. Tao khoa hoc that bai.";
+		cin.get();
+		return;
+	}
 
 	ifstream file("Course.csv");
 	if (!file.is_open()) {

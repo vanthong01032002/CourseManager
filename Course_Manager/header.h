@@ -107,6 +107,8 @@ void showListStudent();
 void addStudentToClass();
 
 string formatId_course(int id);
+bool isValidDayOfWeek(const string& dayOfWeek);
+bool isValidSession(const string& session);
 void createCourse();
 
 //vector<UserProfile> readBinaryFile(const string& filename);
