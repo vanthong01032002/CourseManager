@@ -27,6 +27,19 @@ struct YearInfo {
     string id;
     string year;
 };
+struct Date {
+    int day;
+    int month;
+    int year;
+};
+
+struct Semester
+{
+    int semesterNumber;
+    string academicYear;
+    Date start_date;
+    Date end_date;
+};
 
 struct Student {
     string mssv;
@@ -43,6 +56,7 @@ int authenticateUser(const string& username, const string& password, int& userTy
 void RegistrarScreen();
 void StudentScreen();
 void createYear();
+void createSemester();
 void createClass();
 void showListClass();
 void showListStudent();
