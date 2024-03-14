@@ -137,3 +137,63 @@ void createCourse() {
 	cin.ignore();
 	cin.get();
 }
+
+void showListCourse() {
+	system("cls");
+	gotoxy(36, 4);
+	cout << "Danh sach khoa hoc" << endl;
+
+	ifstream file("Course.csv");
+
+	if (!file.is_open()) {
+		gotoxy(34, 12);
+		cout << "Khong mo duoc file.";
+		cin.get();
+		return;
+	}
+
+	// Đọc dòng đầu tiên và bỏ qua
+	string header;
+	getline(file, header);
+
+	// Hiển thị tiêu đề của bảng
+	gotoxy(10, 6);
+	cout << left << setw(10) << "ID" << setw(25) << "Course name" << setw(25) << "Class name" <<
+		setw(25) << "Teacher name" << setw(8) << "Credit" << setw(12) << "Max students" <<
+		setw(10) << "Day Of Week" << setw(10) << "Session" << setw(10) << "Semester" << endl;
+
+	int row = 8;
+
+	// Đọc và hiển thị thông tin từ file
+	string line;
+	while (getline(file, line)) {
+		stringstream ss(line);
+		Course course;
+
+		// Trích xuất thông tin của lớp học từ dòng CSV
+		getline(ss, course.id, ';');
+		getline(ss, course.courseName, ';');
+		getline(ss, course.className, ';');
+		getline(ss, course.teacherName, ';');
+		ss >> course.credit;
+		ss.ignore(); // Ignore the semicolon
+		ss >> course.maxStudents;
+		ss.ignore(); // Ignore the semicolon
+		getline(ss, course.dayOfWeek, ';');
+		getline(ss, course.session, ';');
+		getline(ss, course.semesterID, ';');
+
+		// Hiển thị thông tin sinh viên
+		gotoxy(10, row);
+		cout << left << setw(10) << course.id << setw(25) << course.courseName << setw(25) << course.className <<
+			setw(25) << course.teacherName << setw(8) << course.credit << setw(12) << course.maxStudents <<
+			setw(10) << course.dayOfWeek << setw(10) << course.session << setw(10) << course.semesterID << endl;
+
+		row += 2; // Di chuyển xuống để hiển thị thông tin sinh viên tiếp theo
+	}
+
+	file.close();
+
+	cin.get();
+}
+

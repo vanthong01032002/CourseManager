@@ -110,6 +110,7 @@ string formatId_course(int id);
 bool isValidDayOfWeek(const string& dayOfWeek);
 bool isValidSession(const string& session);
 void createCourse();
+void showListCourse();
 
 //vector<UserProfile> readBinaryFile(const string& filename);
 //void displayUserProfile(const vector<UserProfile>& users, const string& loggedInUserID);

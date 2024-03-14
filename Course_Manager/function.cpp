@@ -142,7 +142,7 @@ void RegistrarScreen() {
                             createCourse();
                         }
                         else if (selectedOption_course == 1) {
-                            
+                            showListCourse();
                         }
                         else if (selectedOption_course == 6) {
                             returnToMainMenu = true;
