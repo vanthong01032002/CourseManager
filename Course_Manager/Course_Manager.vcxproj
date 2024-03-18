@@ -133,6 +133,7 @@
     <ClCompile Include="function.cpp" />
     <ClCompile Include="header.h" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="semester.cpp" />
     <ClCompile Include="student.cpp" />
     <ClCompile Include="user.cpp" />

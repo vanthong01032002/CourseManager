@@ -78,7 +78,7 @@ void createClass() {
 void showListClass() {
     system("cls");
     gotoxy(36, 4);
-    cout << "Danh sach sinh vien" << endl;
+    cout << "Danh sach lop hoc" << endl;
 
     ifstream file("Class.csv");
 

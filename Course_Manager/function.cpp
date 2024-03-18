@@ -37,11 +37,13 @@ void drawMenuRegistrar(int selectedOption) {
     gotoxy(34, 20);
     cout << (selectedOption == 4 ? "> " : "  ") << "Quan ly sinh vien" << endl;
     gotoxy(34, 22);
-    cout << (selectedOption == 5 ? "> " : "  ") << "Quan ly tai khoan" << endl;
+    cout << (selectedOption == 5 ? "> " : "  ") << "Quan ly Bang diem" << endl;
     gotoxy(34, 24);
-    cout << (selectedOption == 6 ? "> " : "  ") << "Dang xuat" << endl;
+    cout << (selectedOption == 6 ? "> " : "  ") << "Quan ly tai khoan" << endl;
     gotoxy(34, 26);
-    cout << (selectedOption == 7 ? "> " : "  ") << "Thoat" << endl;
+    cout << (selectedOption == 7 ? "> " : "  ") << "Dang xuat" << endl;
+    gotoxy(34, 28);
+    cout << (selectedOption == 8 ? "> " : "  ") << "Thoat" << endl;
 }
 
 void drawMenuClass(int selectedOption) {
@@ -87,7 +89,17 @@ void drawMenuCourse(int selectedOption) {
     gotoxy(34, 24);
     cout << (selectedOption == 6 ? "> " : "  ") << "Thoat" << endl;
 }
-
+void drawMenuScore(int selectedOption) {
+    system("cls");
+    gotoxy(34, 10);
+    cout << "===== QUAN LY DIEM =====" << endl;
+    gotoxy(34, 12);
+    cout << (selectedOption == 0 ? "> " : "  ") << "Xem danh sach diem" << endl;
+    gotoxy(34, 14);
+    cout << (selectedOption == 1 ? "> " : "  ") << "Them diem cho sinh vien" << endl;
+    gotoxy(34, 16);
+    cout << (selectedOption == 2 ? "> " : "  ") << "Thoat" << endl;
+}
 void RegistrarScreen() {
     int selectedOption = 0;
     bool returnToMainMenu = false;
@@ -105,10 +117,10 @@ void RegistrarScreen() {
 
         switch (_getch()) {
         case KEY_UP:
-            selectedOption = (selectedOption - 1 + 8) % 8;
+            selectedOption = (selectedOption - 1 + 9) % 9;
             break;
         case KEY_DOWN:
-            selectedOption = (selectedOption + 1) % 8;
+            selectedOption = (selectedOption + 1) % 9;
             break;
         case KEY_ENTER:
             if (selectedOption == 0) {
@@ -138,11 +150,29 @@ void RegistrarScreen() {
                         selectedOption_course = (selectedOption_course + 1) % 7;
                         break;
                     case KEY_ENTER:
+                        // tạo khóa học
                         if (selectedOption_course == 0) {
                             createCourse();
                         }
+                        // xem danh sách khóa học
                         else if (selectedOption_course == 1) {
                             showListCourse();
+                        }
+                        // cập nhật khóa học
+                        else if (selectedOption_course == 2) {
+                            updateCourseInfo();
+                        }
+                        // xóa khóa học
+                        else if (selectedOption_course == 3) {
+                            cout << "";
+                        }
+                        // thêm sinh viên vào khóa học
+                        else if (selectedOption_course == 4) {
+                            cout << "";
+                        }
+                        // xóa sinh viên khỏi khóa học
+                        else if (selectedOption_course == 5) {
+                            cout << "";
                         }
                         else if (selectedOption_course == 6) {
                             returnToMainMenu = true;
@@ -217,7 +247,7 @@ void RegistrarScreen() {
                             showListStudent();
                         }
                         else if (selectedOption_student == 1) {
-                            // Action for option 1
+                            addStudentToClass();
                         }
                         else if (selectedOption_student == 2) {
                             returnToMainMenu = true;
@@ -230,6 +260,46 @@ void RegistrarScreen() {
                 returnToMainMenu = false;
             }
             else if (selectedOption == 5) {
+                int selectedOption_Score = 0;
+                do {
+                    system("cls");  // Clear console screen
+                    int windowHeighta = GetSystemMetrics(SM_CYSCREEN);
+                    int windowWidtha = GetSystemMetrics(SM_CXSCREEN);
+
+                    int centerXa = windowWidtha / 2;
+                    int centerYa = windowHeighta / 2;
+
+                    gotoxy(centerXa - 15, centerYa - 2);
+                    drawMenuScore(selectedOption_Score);
+
+                    switch (_getch()) {
+                    case KEY_UP:
+                        selectedOption_Score = (selectedOption_Score - 1 + 3) % 3;
+                        break;
+                    case KEY_DOWN:
+                        selectedOption_Score = (selectedOption_Score + 1) % 3;
+                        break;
+                    case KEY_ENTER:
+                        // Xem bang diem
+                        if (selectedOption_Score == 0) {
+                            ShowListScore();
+                        }    
+                        // them diem cho sinh vien
+                        else if (selectedOption_Score == 1) {
+                            addScore();
+                        }
+                        //exit
+                        else if (selectedOption_Score == 2) {
+                            returnToMainMenu = true;
+                        }
+                        break;
+                    }
+                } while (!returnToMainMenu);
+
+                // Reset returnToMainMenu for the main loop
+                returnToMainMenu = false;
+            }
+            else if (selectedOption == 6) {
                 int selectedOption_account = 0;
                 do {
                     system("cls");  // Clear console screen
@@ -263,12 +333,12 @@ void RegistrarScreen() {
                 // Reset returnToMainMenu for the main loop
                 returnToMainMenu = false;
             }
-            else if (selectedOption == 6) {
+            else if (selectedOption == 7) {
                 // logout
                 userIdLogin = "";
                 loginScreen();
             }
-            else if (selectedOption == 7) {
+            else if (selectedOption == 8) {
                 exit(0);
             }
             break;

@@ -197,3 +197,121 @@ void showListCourse() {
 	cin.get();
 }
 
+// m làm rồi thì xóa này đi nha
+void updateCourseInfo() {
+	//system("cls");
+	//gotoxy(36, 2);
+	//ifstream file("course.csv");
+	//if (!file.is_open()) {
+	//	cout << "Khong mo duoc file." << endl;
+	//	return;
+	//}
+
+	//string line;
+	//getline(file, line); // Skip header line
+
+	//string searchID;
+	//gotoxy(36, 2);
+	//cout << "Nhap ID cua khoa hoc ban muon cap nhat: ";
+	//cin >> searchID;
+
+
+	//bool found = false;
+	//Course course;
+
+	//while (getline(file, line)) {
+	//	stringstream ss(line);
+	//	getline(ss, course.id, ';');
+	//	getline(ss, course.courseName, ';');
+	//	getline(ss, course.className, ';');
+	//	getline(ss, course.teacherName, ';');
+	//	ss >> course.credit;
+	//	ss.ignore(); // Ignore the semicolon
+	//	ss >> course.maxStudents;
+	//	ss.ignore(); // Ignore the semicolon
+	//	getline(ss, course.dayOfWeek, ';');
+	//	getline(ss, course.session, ';');
+	//	getline(ss, course.semesterID, ';');
+
+	//	if (course.id == searchID) {
+	//		found = true;
+	//		break;
+	//	}
+	//}
+
+	//file.close();
+
+	//if (!found) {
+	//	gotoxy(36, 4);
+	//	cout << "ID khoa hoc khong ton tai." << endl;
+	//}
+	//else {
+	//	// Display current course info
+	//	gotoxy(30, 4);
+	//	cout << "Current information for course " << course.id << ":" << endl;
+	//	gotoxy(30, 5);
+	//	cout << "Course Name: " << course.courseName << endl;
+	//	gotoxy(30, 6);
+	//	cout << "Class Name: " << course.className << endl;
+	//	gotoxy(30, 7);
+	//	cout << "Teacher Name: " << course.teacherName << endl;
+	//	gotoxy(30, 8);
+	//	cout << "Credit: " << course.credit << endl;
+	//	gotoxy(30, 9);
+	//	cout << "Max Students: " << course.maxStudents << endl;
+	//	gotoxy(30, 10);
+	//	cout << "Day of Week: " << course.dayOfWeek << endl;
+	//	gotoxy(30, 11);
+	//	cout << "Session: " << course.session << endl;
+	//	gotoxy(30, 12);
+	//	cout << "Semester ID: " << course.semesterID << endl;
+
+	//	// Allow user to update info
+	//	gotoxy(30, 14);
+	//	cout << "Nhap thong tin moi" << endl;
+	//	gotoxy(30, 15);
+	//	cout << "New Course Name: ";
+	//	cin.ignore(); // Ignore the newline character left in the buffer
+	//	getline(cin, course.courseName);
+	//	gotoxy(30, 16);
+	//	cout << "New Class Name: ";
+	//	getline(cin, course.className);
+	//	gotoxy(30, 17);
+	//	cout << "New Teacher Name: ";
+	//	getline(cin, course.teacherName);
+	//	gotoxy(30, 18);
+	//	cout << "New Credit: ";
+	//	cin >> course.credit;
+	//	gotoxy(30, 19);
+	//	cout << "New Max Students: ";
+	//	cin >> course.maxStudents;
+
+	//	gotoxy(30, 20);
+	//	cout << "New Day of Week: ";
+	//	getline(cin, course.dayOfWeek);
+
+	//	gotoxy(30, 21);
+	//	cout << "New Session: ";
+	//	getline(cin, course.session);
+	//	gotoxy(30, 22);
+	//	cout << "New Semester ID: ";
+	//	getline(cin, course.semesterID);
+
+	//	// Update course info in file
+	//	ofstream outFile("course.csv");
+	//	if (!outFile.is_open()) {
+	//		cout << "Khong the mo file." << endl;
+	//		return;
+	//	}
+
+	//	outFile << "ID;CourseName;ClassName;TeacherName;Credit;MaxStudents;DayOfWeek;Session;SemesterID" << endl;
+	//	outFile << course.id << ";" << course.courseName << ";" << course.className << ";" << course.teacherName << ";" << course.credit << ";" << course.maxStudents << ";" << course.dayOfWeek << ";" << course.session << ";" << course.semesterID << endl;
+
+	//	outFile.close();
+	//	gotoxy(30, 30);
+	//	cout << "Thong Tin khoa hoc cap nhat thanh cong." << endl;
+	//}
+
+	//
+	//_getch();
+}

@@ -70,6 +70,15 @@ struct Student {
     string expires;
 };
 
+struct Score {
+    string id;
+    string mssv;
+    double total;
+    double final;
+    double midterm;
+    double other;
+};
+
 void sleepFor(int milliseconds);
 void gotoxy(int x, int y);
 void RegistrarScreen();
@@ -111,9 +120,10 @@ bool isValidDayOfWeek(const string& dayOfWeek);
 bool isValidSession(const string& session);
 void createCourse();
 void showListCourse();
+void updateCourseInfo();
 
-//vector<UserProfile> readBinaryFile(const string& filename);
-//void displayUserProfile(const vector<UserProfile>& users, const string& loggedInUserID);
+void ShowListScore();
+void addScore();
 
 void run();
 

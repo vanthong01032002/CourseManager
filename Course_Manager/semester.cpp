@@ -170,4 +170,197 @@ void createSemester() {
     cout << "Da tao hoc ki " << semesterNumber << " voi ID " << newId << " trong nam hoc " << academicYear << endl;
     cin.ignore();
     cin.get();
+    _getch();
+}
+
+#include "header.h"
+
+using namespace std;
+
+void showListStudent() {
+    system("cls");
+    gotoxy(36, 4);
+    cout << "Danh sach sinh vien" << endl;
+
+    ifstream file("user.csv");
+
+    if (!file.is_open()) {
+        gotoxy(34, 12);
+        cout << "Khong mo duoc file.";
+        cin.get();
+        return;
+    }
+
+    // Đọc dòng đầu tiên và bỏ qua
+    string header;
+    getline(file, header);
+
+    // Hiển thị tiêu đề của bảng
+    gotoxy(14, 6);
+    cout << left << setw(10) << "MSSV" << setw(25) << "Full Name" << setw(10) << "Gender" << setw(15) << "Date of Birth"
+        << setw(15) << "ID Card" << setw(15) << "Expires" << endl;
+
+    int row = 8;
+
+    // Đọc và hiển thị thông tin từ file
+    string line;
+    while (getline(file, line)) {
+        stringstream ss(line);
+        Student student;
+        getline(ss, student.mssv, ';');
+        getline(ss, student.fullName, ';');
+        getline(ss, student.gender, ';');
+        getline(ss, student.dateOfBirth, ';');
+        getline(ss, student.idCard, ';');
+        getline(ss, student.expires, ';');
+
+        // Hiển thị thông tin sinh viên
+        gotoxy(14, row);
+        cout << left << setw(10) << student.mssv << setw(25) << student.fullName << setw(10) << student.gender
+            << setw(15) << student.dateOfBirth << setw(15) << student.idCard << setw(15) << student.expires << endl;
+
+        row += 2; // Di chuyển xuống để hiển thị thông tin sinh viên tiếp theo
+    }
+
+    file.close();
+
+    cin.get();
+}
+
+bool isMSSVInStudentClass(const string& mssv) {
+    ifstream studentClassFile("Student_class.csv");
+
+    if (studentClassFile.is_open()) {
+        string line;
+        while (getline(studentClassFile, line)) {
+            stringstream ss(line);
+            string studentMSSV;
+            getline(ss, studentMSSV, ';');
+            if (studentMSSV == mssv) {
+                studentClassFile.close();
+                return true;
+            }
+        }
+        studentClassFile.close();
+    }
+
+    return false;
+}
+
+void addStudentToClass() {
+    system("cls");
+    gotoxy(36, 4);
+    cout << "Them sinh vien vao lop hoc" << endl;
+
+    string mssv, className;
+    bool retry = false;
+
+    do {
+        if (retry) {
+            gotoxy(36, 10); 
+            cout << "MSSV da ton tai trong Student_class.csv. Vui long nhap lai." << endl;
+        }
+
+        gotoxy(36, 8);
+        cout << "Nhap MSSV sinh vien: ";
+        getline(cin, mssv);
+
+        retry = isMSSVInStudentClass(mssv);
+    } while (retry);
+    gotoxy(36, 10);
+    cout << "                                                                                                                ";
+    gotoxy(36, 10);
+    cout << "Nhap ten lop hoc: ";
+    getline(cin, className);
+
+    bool studentFound = false, classFound = false;
+    string studentFullName;
+
+    // Check if the student exists in user.csv
+    ifstream userFile("user.csv");
+    if (userFile.is_open()) {
+        string line;
+        getline(userFile, line); // skip header
+        while (getline(userFile, line)) {
+            stringstream ss(line);
+            string mssvRead, fullName;
+            getline(ss, mssvRead, ';');
+            getline(ss, fullName, ';');
+            if (mssvRead == mssv) {
+                studentFound = true;
+                studentFullName = fullName;
+                break;
+            }
+        }
+        userFile.close();
+    }
+
+    // Check if the class exists in class.csv
+    ifstream classFile("class.csv");
+    if (classFile.is_open()) {
+        string line;
+        getline(classFile, line); // skip header
+        while (getline(classFile, line)) {
+            stringstream ss(line);
+            string classId, classNameRead;
+            getline(ss, classId, ';');
+            getline(ss, classNameRead, ';');
+            if (classNameRead == className) {
+                classFound = true;
+                break;
+            }
+        }
+        classFile.close();
+    }
+
+    if (!studentFound) {
+        gotoxy(30, 14);
+        cout << "Khong tim thay sinh vien co MSSV: " << mssv << endl;
+        gotoxy(30, 16);
+        cout << "Them sinh vien vao lop hoc that bai." << endl;
+        cin.get();
+        return;
+    }
+
+    if (!classFound) {
+        gotoxy(30, 14);
+        cout << "Khong tim thay lop hoc co ten: " << className << endl;
+        gotoxy(30, 16);
+        cout << "Them sinh vien vao lop hoc that bai." << endl;
+        cin.get();
+        return;
+    }
+
+    ifstream studentClassFile("Student_class.csv");
+
+    if (studentClassFile.is_open()) {
+        string line;
+        getline(studentClassFile, line); // Loại bỏ dòng tiêu đề
+        while (getline(studentClassFile, line)) {
+            stringstream ss(line);
+            string currentMSSV, currentClassName;
+            getline(ss, currentMSSV, ',');
+            getline(ss, currentClassName, ',');
+            if (currentMSSV == mssv) {
+                gotoxy(30, 14);
+                cout << "Sinh vien da ton tai trong lop hoc." << endl;
+                studentClassFile.close();
+                return;
+            }
+        }
+        studentClassFile.close();
+    }
+
+    ofstream studentClassOut("Student_class.csv", ios::app);
+    if (studentClassOut.is_open()) {
+        studentClassOut << mssv << ';' << className << ';' << studentFullName << '\n';
+        studentClassOut.close();
+        cout << "Them sinh vien vao lop hoc thanh cong." << endl;
+    }
+    else {
+        cout << "Khong mo duoc file Student_class.csv." << endl;
+    }
+
+    cin.get();
+    _getch();
 }
