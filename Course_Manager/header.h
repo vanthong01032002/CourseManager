@@ -59,6 +59,7 @@ struct Course {
     int maxStudents;
     string dayOfWeek; // For example: MON / TUE / WED / THU / FRI / SAT
     string session; // For example: S1 (07:30), S2 (09:30), S3(13:30) and S4 (15:30))
+    string year;
 };
 
 struct Student {
@@ -119,6 +120,7 @@ string formatId_course(int id);
 bool isValidDayOfWeek(const string& dayOfWeek);
 bool isValidSession(const string& session);
 void createCourse();
+void uploadStudentList(const Course& course);
 void showListCourse();
 void updateCourseInfo();
 
