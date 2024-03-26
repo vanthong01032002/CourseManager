@@ -328,6 +328,96 @@ void updateCourseInfo() {
 
 	cin.get();
 }
+void addStudentToCourse() {
+	system("cls");
+	gotoxy(30, 10);
+	cout << "===== THEM HOC VIEN VAO KHOA HOC =====" << endl;
+
+	string courseId;
+	cout << "Nhap ID cua khoa hoc: ";
+	cin >> courseId;
+
+	ifstream courseFile("Course.csv");
+	if (!courseFile.is_open()) {
+		cout << "Khong the mo file." << endl;
+		cin.get();
+		return;
+	}
+
+	string studentId;
+	cout << "Nhap MSSV cua hoc vien: ";
+	cin >> studentId;
+
+	ifstream studentFile("Student.csv");
+	if (!studentFile.is_open()) {
+		cout << "Khong the mo file." << endl;
+		courseFile.close();
+		cin.get();
+		return;
+	}
+
+	bool courseFound = false;
+	string line;
+	while (getline(courseFile, line)) {
+		stringstream ss(line);
+		string id;
+		getline(ss, id, ';');
+
+		if (id == courseId) {
+			courseFound = true;
+			break;
+		}
+	}
+
+	if (!courseFound) {
+		cout << "Khong tim thay khoa hoc voi ID da nhap." << endl;
+		courseFile.close();
+		studentFile.close();
+		cin.get();
+		return;
+	}
+
+	// Check if student exists
+	bool studentFound = false;
+	while (getline(studentFile, line)) {
+		stringstream ss(line);
+		string id;
+		getline(ss, id, ';');
+
+		if (id == studentId) {
+			studentFound = true;
+			break;
+		}
+	}
+
+	if (!studentFound) {
+		cout << "Khong tim thay hoc vien voi MSSV da nhap." << endl;
+		courseFile.close();
+		studentFile.close();
+		cin.get();
+		return;
+	}
+
+	// Append student to course file
+	ofstream outFile("student_course.csv", ios::app);
+	if (!outFile.is_open()) {
+		cout << "Khong the mo file." << endl;
+		courseFile.close();
+		studentFile.close();
+		cin.get();
+		return;
+	}
+
+	outFile << studentId << ';' << courseId << endl;
+	outFile.close();
+
+	cout << "Da them hoc vien voi MSSV " << studentId << " vao khoa hoc voi ID " << courseId << endl;
+
+	courseFile.close();
+	studentFile.close();
+	cin.get();
+}
+
 
 
 

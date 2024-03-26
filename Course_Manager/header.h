@@ -123,7 +123,7 @@ void createCourse();
 void uploadStudentList(const Course& course);
 void showListCourse();
 void updateCourseInfo();
-
+void addStudentToCourse();
 void ShowListScore();
 void addScore();
 

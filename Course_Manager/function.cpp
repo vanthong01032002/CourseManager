@@ -168,7 +168,7 @@ void RegistrarScreen() {
                         }
                         // thêm sinh viên vào khóa học
                         else if (selectedOption_course == 4) {
-                            cout << "";
+                            addStudentToCourse();;
                         }
                         // xóa sinh viên khỏi khóa học
                         else if (selectedOption_course == 5) {
@@ -349,3 +349,4 @@ void RegistrarScreen() {
 void run() {
     loginScreen();
 }
+
