@@ -172,7 +172,7 @@ void RegistrarScreen() {
                         }
                         // xóa sinh viên khỏi khóa học
                         else if (selectedOption_course == 5) {
-                            cout << "";
+                            removeStudentFromCourse();
                         }
                         else if (selectedOption_course == 6) {
                             returnToMainMenu = true;

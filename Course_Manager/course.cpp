@@ -418,6 +418,98 @@ void addStudentToCourse() {
 	cin.get();
 }
 
+//Xóa học viên
+void removeStudentFromCourse() {
+	system("cls");
+	gotoxy(30, 10);
+	cout << "===== XOA HOC VIEN RA KHOA HOC =====" << endl;
+
+	string courseId;
+	cout << "Nhap ID cua khoa hoc: ";
+	cin >> courseId;
+
+	ifstream courseFile("Course.csv");
+	if (!courseFile.is_open()) {
+		cout << "Khong the mo file." << endl;
+		cin.get();
+		return;
+	}
+
+	bool courseFound = false;
+	string line;
+	while (getline(courseFile, line)) {
+		stringstream ss(line);
+		string id;
+		getline(ss, id, ';');
+
+		if (id == courseId) {
+			courseFound = true;
+			break;
+		}
+	}
+
+	courseFile.close();
+
+	if (!courseFound) {
+		cout << "Khong tim thay khoa hoc voi ID da nhap." << endl;
+		cin.get();
+		return;
+	}
+
+	string studentId;
+	cout << "Nhap MSSV cua hoc vien can xoa: ";
+	cin >> studentId;
+
+	ifstream inFile("student_course.csv");
+	if (!inFile.is_open()) {
+		cout << "Khong the mo file." << endl;
+		cin.get();
+		return;
+	}
+
+	vector<string> lines; // Vector lưu trữ dữ liệu không cần xóa
+
+	bool studentFound = false;
+	while (getline(inFile, line)) {
+		stringstream ss(line);
+		string storedCourseId, storedStudentId;
+		getline(ss, storedCourseId, ';');
+		getline(ss, storedStudentId);
+
+		if (storedCourseId == courseId && storedStudentId == studentId) {
+			studentFound = true;
+		}
+		else {
+			lines.push_back(line); // Thêm dòng này vào vector nếu không phải dòng cần xóa
+		}
+	}
+
+	inFile.close();
+
+	if (!studentFound) {
+		cout << "Khong tim thay hoc vien voi MSSV da nhap trong khoa hoc." << endl;
+		cin.get();
+		return;
+	}
+
+	ofstream outFile("student_course.csv");
+	if (!outFile.is_open()) {
+		cout << "Khong the mo file." << endl;
+		cin.get();
+		return;
+	}
+
+	// Ghi lại toàn bộ dữ liệu từ vector vào file student_course.csv
+	for (const string& line : lines) {
+		outFile << line << endl;
+	}
+
+	outFile.close();
+
+	cout << "Da xoa hoc vien voi MSSV " << studentId << " ra khoa hoc voi ID " << courseId << endl;
+	cin.get();
+}
+
 
 
 

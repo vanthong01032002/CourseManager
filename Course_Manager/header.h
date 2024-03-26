@@ -124,6 +124,8 @@ void uploadStudentList(const Course& course);
 void showListCourse();
 void updateCourseInfo();
 void addStudentToCourse();
+void removeStudentFromCourse();
+
 void ShowListScore();
 void addScore();
 
