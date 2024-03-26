@@ -510,6 +510,62 @@ void removeStudentFromCourse() {
 	cin.get();
 }
 
+void removeCourse() {
+	system("cls");
+	gotoxy(30, 10);
+	cout << "===== XOA KHOA HOC =====" << endl;
+
+	string courseId;
+	cout << "Nhap ID cua khoa hoc can xoa: ";
+	cin >> courseId;
+
+	ifstream inFile("Course.csv");
+	if (!inFile.is_open()) {
+		cout << "Khong the mo file." << endl;
+		cin.get();
+		return;
+	}
+
+	ofstream tempFile("temp.csv");
+	if (!tempFile.is_open()) {
+		cout << "Khong the tao file tam thoi." << endl;
+		inFile.close();
+		cin.get();
+		return;
+	}
+
+	string line;
+	bool courseFound = false;
+	while (getline(inFile, line)) {
+		stringstream ss(line);
+		string id;
+		getline(ss, id, ';');
+
+		if (id == courseId) {
+			courseFound = true;
+		}
+		else {
+			tempFile << line << endl;
+		}
+	}
+
+	inFile.close();
+	tempFile.close();
+
+	if (!courseFound) {
+		cout << "Khong tim thay khoa hoc voi ID da nhap." << endl;
+		remove("temp.csv");
+		cin.get();
+		return;
+	}
+
+	remove("Course.csv");
+	rename("temp.csv", "Course.csv");
+
+	cout << "Da xoa khoa hoc voi ID " << courseId << endl;
+	cin.get();
+}
+
 
 
 

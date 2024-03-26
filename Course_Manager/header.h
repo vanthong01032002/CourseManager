@@ -125,6 +125,7 @@ void showListCourse();
 void updateCourseInfo();
 void addStudentToCourse();
 void removeStudentFromCourse();
+void removeCourse();
 
 void ShowListScore();
 void addScore();
