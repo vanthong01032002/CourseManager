@@ -207,12 +207,13 @@ void showListCourse() {
 // Function to upload CSV file containing list of students enrolled in the course
 void uploadStudentList(const Course& course) {
 	string fileName;
-	cout << "Nhập tên tệp CSV chứa danh sách sinh viên: ";
+	std::cout << "Nhap ten tep CSV chua danh sach sinh vien: ";
+
 	cin >> fileName;
 
 	ifstream file(fileName);
 	if (!file.is_open()) {
-		cout << "Không thể mở tệp. Tải lên danh sách sinh viên thất bại." << endl;
+		std::cout << "Khong the mo tep. Tai len danh sach sinh vien that bai." << std::endl;
 		return;
 	}
 
@@ -229,7 +230,104 @@ void uploadStudentList(const Course& course) {
 	file.close();
 	studentCourseFile.close();
 
-	cout << "Danh sách sinh viên đã được lưu vào tệp: " << studentCourseFileName << endl;
+	std::cout << "Danh sach sinh vien da duoc luu vao tep: " << studentCourseFileName << std::endl;
 }
+void updateCourseInfo() {
+	system("cls");
+	gotoxy(30, 10);
+	cout << "===== CAP NHAT THONG TIN KHOA HOC =====" << endl;
+
+	string courseId;
+	cout << "Nhap ID cua khoa hoc can nhap thong tin: ";
+	cin >> courseId;
+
+	ifstream file("Course.csv");
+	if (!file.is_open()) {
+		std::cout << "Khong the mo file." << std::endl;
+		cin.get();
+		return;
+	}
+
+	ofstream tempFile("temp.csv");
+	if (!tempFile.is_open()) {
+		std::cout << "Khong the tao file tam thoi." << std::endl;
+		file.close();
+		cin.get();
+		return;
+	}
+
+	string line;
+	bool found = false;
+	while (getline(file, line)) {
+		// Tách dữ liệu trong dòng thành các trường
+		stringstream ss(line);
+		string id;
+		getline(ss, id, ';');
+
+		// So sánh ID nhập vào với ID trong file
+		if (id == courseId) {
+			// Nếu trùng khớp, cho phép người dùng cập nhật thông tin
+			found = true;
+
+			Course course;
+			course.id = id;
+
+			// Nhập thông tin mới từ người dùng
+			cout << "Nhap ten moi cua khoa hoc: ";
+			getline(cin >> ws, course.courseName);
+
+			cout << "Nhap ten lop moi: ";
+			getline(cin, course.className);
+
+			cout << "Nhap ten giao vien moi: ";
+			getline(cin, course.teacherName);
+
+			cout << "Nhap so tin chi moi: ";
+			cin >> course.credit;
+
+			cout << "Nhap so luong hoc sinh toi da moi: ";
+			cin >> course.maxStudents;
+
+			cout << "Nhap ngay hoc moi: ";
+			cin >> ws;
+			getline(cin, course.dayOfWeek);
+
+			cout << "Nhap thoi gian hoc moi: ";
+			getline(cin, course.session);
+
+			cout << "Nhap hoc ki moi: ";
+			getline(cin, course.semesterID);
+
+			cout << "Nhap nam hoc moi: ";
+			getline(cin, course.year);
+
+			// Ghi thông tin mới vào file tạm thời
+			tempFile << course.id << ';' << course.courseName << ';' << course.className << ';' << course.teacherName << ';' << course.credit
+				<< ';' << course.maxStudents << ';' << course.dayOfWeek << ';' << course.session << ';' << course.semesterID << ';' << course.year << '\n';
+		}
+		else {
+			// Nếu không trùng khớp, giữ nguyên dòng thông tin và ghi vào file tạm thời
+			tempFile << line << '\n';
+		}
+	}
+
+	file.close();
+	tempFile.close();
+
+	// Xóa file cũ và đổi tên file tạm thành tên file gốc
+	remove("Course.csv");
+	rename("temp.csv", "Course.csv");
+	if (!found) {
+		std::cout << "Khong tim thay khoa hoc voi ID da nhap." << std::endl;
+
+	}
+	else {
+		std::cout << "Thong tin khoa hoc da duoc cap nhat." << std::endl;
+
+	}
+
+	cin.get();
+}
+
 
 
