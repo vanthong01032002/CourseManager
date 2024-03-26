@@ -127,6 +127,7 @@ void addStudentToCourse();
 void ShowListScore();
 void addScore();
 
+
 void run();
 
 #endif // HEADER_H
