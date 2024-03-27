@@ -60,7 +60,7 @@ struct Course {
     string dayOfWeek; // For example: MON / TUE / WED / THU / FRI / SAT
     string session; // For example: S1 (07:30), S2 (09:30), S3(13:30) and S4 (15:30))
     string year;
-};
+    vector<double> finalGrades; // Final grades of all students
 
 struct Student {
     string mssv;
@@ -69,6 +69,11 @@ struct Student {
     string dateOfBirth;
     string idCard;
     string expires;
+    double total;
+    double finalGrade;
+    double midtermGrade;
+    double otherGrade;
+    double semesterGPA;
 };
 
 struct Score {
