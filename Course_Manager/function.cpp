@@ -100,6 +100,51 @@ void drawMenuScore(int selectedOption) {
     gotoxy(34, 16);
     cout << (selectedOption == 2 ? "> " : "  ") << "Thoat" << endl;
 }
+
+void drawMenuStudentScreen(int selectedOption) {
+    system("cls");
+    gotoxy(34, 10);
+    cout << "===== SINH VIEN SCREEN =====" << endl;
+    gotoxy(34, 12);
+    cout << (selectedOption == 0 ? "> " : "  ") << "Xem Thong Tin Khoa Hoc" << endl;
+    gotoxy(34, 14);
+    cout << (selectedOption == 1 ? "> " : "  ") << "Thoat" << endl;
+}
+
+void StudentScreen() {
+    int selectedOption = 0;
+    bool returnToMainMenu = false;
+
+    do {
+        system("cls");  // Clear console screen
+        int windowHeight = GetSystemMetrics(SM_CYSCREEN);
+        int windowWidth = GetSystemMetrics(SM_CXSCREEN);
+
+        int centerX = windowWidth / 2;
+        int centerY = windowHeight / 2;
+
+        gotoxy(centerX - 15, centerY - 2);
+        drawMenuStudentScreen(selectedOption);
+
+        switch (_getch()) {
+        case KEY_UP:
+            selectedOption = (selectedOption - 1 + 2) % 2;
+            break;
+        case KEY_DOWN:
+            selectedOption = (selectedOption + 1) % 2;
+            break;
+        case KEY_ENTER:
+            if (selectedOption == 0) {
+                viewEnrolledCourses();
+            }
+            else if (selectedOption == 1) {
+                returnToMainMenu = true;
+            }
+            break;
+        }
+    } while (!returnToMainMenu);
+}
+
 void RegistrarScreen() {
     int selectedOption = 0;
     bool returnToMainMenu = false;

@@ -125,11 +125,6 @@ void showLoginScreen(int userType) {
     }
 }
 
-void StudentScreen() {
-
-    cout << "Dang nhap thanh cong boi Sinh vien!" << endl;
-}
-
 void writePasswordToFile(const string& targetUserId, const string& newPassword) {
     string filename = "account.csv";
     ifstream infile(filename);

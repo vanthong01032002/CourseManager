@@ -14,6 +14,8 @@
 
 using namespace std;
 
+extern string loggedInUserID;
+
 struct UserInfo {
     string userId;
     string username;
@@ -61,6 +63,7 @@ struct Course {
     string session; // For example: S1 (07:30), S2 (09:30), S3(13:30) and S4 (15:30))
     string year;
     vector<double> finalGrades; // Final grades of all students
+};
 
 struct Student {
     string mssv;
@@ -97,8 +100,8 @@ void showLoginScreen(int userType);
 void loginScreen();
 int authenticateUser(const string& username, const string& password, int& userType);
 UserInfo getUserInfoById(const string& userId);
-void loginScreen();
 void showLoginScreen(int userType);
+void drawMenuStudentScreen(int selectedOption);
 void showProfileInfo(int selectedOption);
 void StudentScreen();;
 void changePassword();
@@ -134,7 +137,7 @@ void removeCourse();
 
 void ShowListScore();
 void addScore();
-
+void viewEnrolledCourses();
 
 void run();
 
