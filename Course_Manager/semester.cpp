@@ -173,10 +173,6 @@ void createSemester() {
     _getch();
 }
 
-#include "header.h"
-
-using namespace std;
-
 void showListStudent() {
     system("cls");
     gotoxy(36, 4);

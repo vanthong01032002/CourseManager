@@ -1,5 +1,32 @@
 ﻿#include "header.h"
 
+string getCourseNameByID(const string& courseId) {
+    ifstream courseFile("Course.csv");
+    if (!courseFile.is_open()) {
+        cout << "Khong mo duoc file Course.csv." << endl;
+        return "";
+    }
+
+    string line;
+    getline(courseFile, line); // Skip header line
+
+    while (getline(courseFile, line)) {
+        stringstream ss(line);
+        string currentCourseId, courseName;
+        getline(ss, currentCourseId, ';'); // Đọc trường CourseID
+        getline(ss, courseName, ';'); // Đọc trường CourseName
+
+        if (currentCourseId == courseId) {
+            courseFile.close();
+            return courseName;
+        }
+    }
+
+    courseFile.close();
+    return "";
+}
+
+
 void ShowListScore() {
     system("cls");
     gotoxy(30, 2);
@@ -10,21 +37,30 @@ void ShowListScore() {
         return;
     }
 
+    ifstream courseFile("Course.csv");
+    if (!courseFile.is_open()) {
+        cout << "Khong the mo file Course.csv." << endl;
+        return;
+    }
+
     string line;
     getline(file, line); // Skip header line
     gotoxy(14, 6);
     cout << left << setw(10) << "ID";
     cout << left << setw(15) << "MSSV";
+    cout << left << setw(30) << "Course Name";
     cout << left << setw(10) << "Total";
     cout << left << setw(10) << "Final";
     cout << left << setw(10) << "Midterm";
     cout << left << setw(10) << "Other" << endl;
+
     int row = 8;
     while (getline(file, line)) {
         stringstream ss(line);
         Score score;
         getline(ss, score.id, ';');
         getline(ss, score.mssv, ';');
+        getline(ss, score.courseId, ';');
         ss >> score.total;
         ss.ignore(); // Ignore the tab
         ss >> score.final;
@@ -32,9 +68,13 @@ void ShowListScore() {
         ss >> score.midterm;
         ss.ignore(); // Ignore the tab
         ss >> score.other;
+
+        string courseName = getCourseNameByID(score.courseId);
+
         gotoxy(14, row);
         cout << left << setw(10) << score.id;
         cout << left << setw(15) << score.mssv;
+        cout << left << setw(30) << courseName;
         cout << left << setw(10) << score.total;
         cout << left << setw(10) << score.final;
         cout << left << setw(10) << score.midterm;
@@ -69,6 +109,34 @@ bool isMSSVExist(string mssv) {
     userFile.close();
     return false;
 }
+
+bool isCourseIDExist(const string& courseId) {
+    ifstream courseFile("Course.csv");
+    if (!courseFile.is_open()) {
+        cout << "Khong mo duoc file Course.csv." << endl;
+        return false;
+    }
+
+    string line;
+    getline(courseFile, line); // Skip header line
+
+    while (getline(courseFile, line)) {
+        stringstream ss(line);
+        string currentCourseId;
+        getline(ss, currentCourseId, ';'); // Đọc trường CourseID
+
+        if (currentCourseId == courseId) {
+
+            courseFile.close();
+            return true;
+        }
+    }
+
+    courseFile.close();
+    return false;
+}
+
+
 string generateNewID() {
     ifstream scoreFile("Score.csv");
     if (!scoreFile.is_open()) {
@@ -94,7 +162,8 @@ string generateNewID() {
         return newID;
     }
 }
-bool isMSSVExistInScore(string mssv) {
+
+bool isMSSVAndCourseIDExistInScore(string mssv, string courseId) {
     ifstream scoreFile("Score.csv");
     if (!scoreFile.is_open()) {
         cout << "Unable to open Score.csv file." << endl;
@@ -106,15 +175,16 @@ bool isMSSVExistInScore(string mssv) {
 
     while (getline(scoreFile, line)) {
         stringstream ss(line);
-        string id, currentMSSV, total, final, midterm, other;
+        string id, currentMSSV, currentCourseID, total, final, midterm, other;
         getline(ss, id, ';'); // Bỏ qua trường ID
         getline(ss, currentMSSV, ';'); // Đọc trường MSSV
+        getline(ss, currentCourseID, ';'); // Đọc trường CourseID
         getline(ss, total, ';'); // Bỏ qua các trường khác
         getline(ss, final, ';');
         getline(ss, midterm, ';');
         getline(ss, other, ';');
 
-        if (currentMSSV == mssv) {
+        if (currentMSSV == mssv && currentCourseID == courseId) {
             scoreFile.close();
             return true;
         }
@@ -123,23 +193,34 @@ bool isMSSVExistInScore(string mssv) {
     scoreFile.close();
     return false;
 }
+
 // Thêm điểm cho sinh viên
 void addScore() {
     system("cls");
+
     gotoxy(30, 2);
     cout << "Nhap MSSV: ";
     string mssv;
     getline(cin, mssv);
+
+    gotoxy(30, 4);
+    cout << "Nhap CourseID: ";
+    string courseId;
+    getline(cin, courseId);
 
     // Kiểm tra xem MSSV có tồn tại trong user.csv hay không
     if (!isMSSVExist(mssv)) {
         gotoxy(30, 6);
         cout << "MSSV khong ton tai" << endl;
     }
+    if (!isCourseIDExist(courseId)) {
+        gotoxy(30, 6);
+        cout << "CourseID khong ton tai" << endl;
+    }
     else {
-        if (isMSSVExistInScore(mssv)) {
+        if (isMSSVAndCourseIDExistInScore(mssv, courseId)) {
             gotoxy(30, 6);
-            cout << "MSSV da ton tai trong Score.csv. Khong the them." << endl;
+            cout << "MSSV va CourseID da ton tai trong Score.csv. Khong the them." << endl;
         }
         else {
             double total, final, midterm, other;
@@ -167,7 +248,7 @@ void addScore() {
                 return;
             }
 
-            scoreFile << newID << ";" << mssv << ";" << total << ";" << final << ";" << midterm << ";" << other << endl;
+            scoreFile << newID << ";" << mssv << ";" << courseId << ";" << total << ";" << final << ";" << midterm << ";" << other << endl;
 
             scoreFile.close();
 

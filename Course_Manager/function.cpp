@@ -108,7 +108,13 @@ void drawMenuStudentScreen(int selectedOption) {
     gotoxy(34, 12);
     cout << (selectedOption == 0 ? "> " : "  ") << "Xem Thong Tin Khoa Hoc" << endl;
     gotoxy(34, 14);
-    cout << (selectedOption == 1 ? "> " : "  ") << "Thoat" << endl;
+    cout << (selectedOption == 1 ? "> " : "  ") << "Quan Ly bang diem" << endl;
+    gotoxy(34, 16);
+    cout << (selectedOption == 2 ? "> " : "  ") << "Quan ly tai khoan" << endl;
+    gotoxy(34, 18);
+    cout << (selectedOption == 3 ? "> " : "  ") << "Dang Xuat" << endl;
+    gotoxy(34, 20);
+    cout << (selectedOption == 4 ? "> " : "  ") << "Thoat" << endl;
 }
 
 void StudentScreen() {
@@ -128,17 +134,60 @@ void StudentScreen() {
 
         switch (_getch()) {
         case KEY_UP:
-            selectedOption = (selectedOption - 1 + 2) % 2;
+            selectedOption = (selectedOption - 1 + 5) % 5;
             break;
         case KEY_DOWN:
-            selectedOption = (selectedOption + 1) % 2;
+            selectedOption = (selectedOption + 1) % 5;
             break;
         case KEY_ENTER:
             if (selectedOption == 0) {
                 viewEnrolledCourses();
             }
             else if (selectedOption == 1) {
-                returnToMainMenu = true;
+                Score score = getScoreByMSSV();
+                showScore(score);
+            }
+            else if (selectedOption == 2) {
+                int selectedOption_account = 0;
+                do {
+                    system("cls");  // Clear console screen
+                    int windowHeighta = GetSystemMetrics(SM_CYSCREEN);
+                    int windowWidtha = GetSystemMetrics(SM_CXSCREEN);
+
+                    int centerXa = windowWidtha / 2;
+                    int centerYa = windowHeighta / 2;
+
+                    gotoxy(centerXa - 15, centerYa - 2);
+                    showProfileInfo(selectedOption_account);
+
+                    switch (_getch()) {
+                    case KEY_UP:
+                        selectedOption_account = (selectedOption_account - 1 + 2) % 2;
+                        break;
+                    case KEY_DOWN:
+                        selectedOption_account = (selectedOption_account + 1) % 2;
+                        break;
+                    case KEY_ENTER:
+                        if (selectedOption_account == 0) {
+                            changePassword();
+                        }
+                        else if (selectedOption_account == 1) {
+                            returnToMainMenu = true;
+                        }
+                        break;
+                    }
+                } while (!returnToMainMenu);
+
+                // Reset returnToMainMenu for the main loop
+                returnToMainMenu = false;
+            }
+            else if (selectedOption == 3) {
+                // logout
+                userIdLogin = "";
+                loginScreen();
+            }
+            else if (selectedOption == 4) {
+                exit(0);
             }
             break;
         }

@@ -82,11 +82,13 @@ struct Student {
 struct Score {
     string id;
     string mssv;
+    string courseId;
     double total;
     double final;
     double midterm;
     double other;
 };
+
 
 void sleepFor(int milliseconds);
 void gotoxy(int x, int y);
@@ -138,6 +140,10 @@ void removeCourse();
 void ShowListScore();
 void addScore();
 void viewEnrolledCourses();
+
+Score getScoreByMSSV();
+void showScore(const Score& score);
+string getCourseNameByID(const string& courseId);
 
 void run();
 

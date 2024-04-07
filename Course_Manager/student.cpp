@@ -79,3 +79,105 @@ void viewEnrolledCourses() {
     file.close(); // Đóng file
     cin.get(); // Dừng màn hình để người dùng có thời gian đọc thông tin
 }
+
+Score getScoreByMSSV() {
+    ifstream file("Score.csv");
+
+    if (file.is_open()) {
+        string line;
+
+        // Bỏ qua dòng đầu tiên
+        getline(file, line);
+
+        while (getline(file, line)) {
+            stringstream ss(line);
+            string id, mssvFromFile, courseId, totalStr, finalStr, midtermStr, otherStr;
+
+            getline(ss, id, ';');
+            getline(ss, mssvFromFile, ';');
+            getline(ss, courseId, ';');
+            getline(ss, totalStr, ';');
+            getline(ss, finalStr, ';');
+            getline(ss, midtermStr, ';');
+            getline(ss, otherStr, ';');
+
+            if (mssvFromFile == loggedInUserID) {
+                // Chuyển đổi các trường điểm từ string sang double
+                Score score;
+                score.id = id;
+                score.mssv = mssvFromFile;
+                score.courseId = courseId;
+                score.total = stod(totalStr);
+                score.final = stod(finalStr);
+                score.midterm = stod(midtermStr);
+                score.other = stod(otherStr);
+
+                file.close();
+                return score;
+            }
+        }
+        file.close();
+    }
+
+    // Trả về thông tin điểm mặc định nếu không tìm thấy
+    return Score{ "", "", "", 0.0, 0.0, 0.0, 0.0 };
+}
+
+void showScore(const Score& score) {
+    system("cls");
+    gotoxy(40, 3);
+    cout << "===== THONG TIN DIEM =====" << endl;
+    if (score.mssv.empty()) {
+        cout << "Khong co thong tin diem cho sinh vien" << endl;
+    }
+    else {
+        gotoxy(14, 6);
+        cout << left << setw(15) << "ID";
+        cout << left << setw(30) << "Course Name";
+        cout << left << setw(10) << "Total";
+        cout << left << setw(10) << "Final";
+        cout << left << setw(10) << "Midterm";
+        cout << left << setw(10) << "Other" << endl;
+
+        ifstream file("Score.csv");
+        if (!file.is_open()) {
+            cout << "Khong mo duoc file Score.csv." << endl;
+            return;
+        }
+
+        string line;
+        getline(file, line); // Skip header line
+
+        int row = 8;
+        while (getline(file, line)) {
+            stringstream ss(line);
+            Score currentScore;
+
+            getline(ss, currentScore.id, ';');
+            getline(ss, currentScore.mssv, ';');
+            getline(ss, currentScore.courseId, ';');
+            ss >> currentScore.total;
+            ss.ignore(); // Ignore the tab
+            ss >> currentScore.final;
+            ss.ignore(); // Ignore the tab
+            ss >> currentScore.midterm;
+            ss.ignore(); // Ignore the tab
+            ss >> currentScore.other;
+
+            if (currentScore.mssv == score.mssv) {
+                string courseName = getCourseNameByID(currentScore.courseId);
+                gotoxy(14, row);
+                cout << left << setw(15) << currentScore.id;
+                cout << left << setw(30) << courseName;
+                cout << left << setw(10) << currentScore.total;
+                cout << left << setw(10) << currentScore.final;
+                cout << left << setw(10) << currentScore.midterm;
+                cout << left << setw(10) << currentScore.other << endl;
+                row += 2;
+            }
+        }
+
+        file.close();
+    }
+    cin.get();
+}
