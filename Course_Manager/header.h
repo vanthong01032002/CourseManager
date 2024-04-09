@@ -63,6 +63,7 @@ struct Course {
     string session; // For example: S1 (07:30), S2 (09:30), S3(13:30) and S4 (15:30))
     string year;
     vector<double> finalGrades; // Final grades of all students
+    vector<Student> enrolledStudents;
 };
 
 struct Student {
@@ -77,6 +78,7 @@ struct Student {
     double midtermGrade;
     double otherGrade;
     double semesterGPA;
+
 };
 
 struct Score {
@@ -140,10 +142,21 @@ void removeCourse();
 void ShowListScore();
 void addScore();
 void viewEnrolledCourses();
+void viewEnrolledStudentsInCourse(const Course& course);
+void viewEnrolledCourses2();
+
 
 Score getScoreByMSSV();
 void showScore(const Score& score);
 string getCourseNameByID(const string& courseId);
+
+//Giáo vụ (giaovu.cpp)
+vector<Student> readStudentsFromCSV(const string& filename);
+void exportEnrolledStudentsToCSV(const Course& course);
+void updateStudentScore(const string& studentID, double newTotal, double newFinal, double newMidterm, double newOther);
+void calculateGPA(vector<Student>& students);
+double calculateOverallGPA(const vector<Student>& students);
+void displayClassReport(const vector<Student>& students);
 
 void run();
 
