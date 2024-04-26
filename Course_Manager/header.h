@@ -142,21 +142,19 @@ void removeCourse();
 void ShowListScore();
 void addScore();
 void viewEnrolledCourses();
-void viewEnrolledStudentsInCourse(const Course& course);
-void viewEnrolledCourses2();
-
 
 Score getScoreByMSSV();
 void showScore(const Score& score);
 string getCourseNameByID(const string& courseId);
 
 //Giáo vụ (giaovu.cpp)
-vector<Student> readStudentsFromCSV(const string& filename);
-void exportEnrolledStudentsToCSV(const Course& course);
+bool readStudentsFromCSV(const string& filename, Student students[], int& count);
+void exportEnrolledStudentsToCSV(const Student students[], int count, const string& filename);
 void updateStudentScore(const string& studentID, double newTotal, double newFinal, double newMidterm, double newOther);
-void calculateGPA(vector<Student>& students);
-double calculateOverallGPA(const vector<Student>& students);
-void displayClassReport(const vector<Student>& students);
+void showClassScores(const string& className, const string& semester);
+void calculateGPA(Student students[], int count);
+double calculateOverallGPA(const Student students[], int count);
+void displayClassReport(const Student students[], int count);
 
 void run();
 
