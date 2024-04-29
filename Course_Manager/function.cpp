@@ -55,7 +55,9 @@ void drawMenuClass(int selectedOption) {
     gotoxy(34, 14);
     cout << (selectedOption == 1 ? "> " : "  ") << "Xem danh sach lop hoc" << endl;
     gotoxy(34, 16);
-    cout << (selectedOption == 2 ? "> " : "  ") << "Thoat" << endl;
+    cout << (selectedOption == 2 ? "> " : "  ") << "Xem danh sach sinh vien trong mot lop" << endl;
+    gotoxy(34, 18);
+    cout << (selectedOption == 3 ? "> " : "  ") << "Thoat" << endl;
 }
 
 void drawMenuStudent(int selectedOption){
@@ -307,6 +309,9 @@ void RegistrarScreen() {
                             showListClass();
                         }
                         else if (selectedOption_class == 2) {
+                            viewStudentsInClass('20CLC05');
+                        }
+                        else if (selectedOption_class == 3) {
                             returnToMainMenu = true;
                         }
                         break;
