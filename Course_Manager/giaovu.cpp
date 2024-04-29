@@ -233,6 +233,89 @@ void displayClassReport(const Student students[], int count) {
     cout << "Tổng quát GPA của lớp: " << fixed << setprecision(2) << calculateOverallGPA(students, count) << endl;
 }
 
+// Hàm để lấy thông tin về học sinh từ file User.csv
+vector<Student> getStudentsByClass (const string & className) {
+    vector<Student> students;
 
+    // mở file Student_class.csv
+    ifstream file("Student_class.csv");
+    if (!file.is_open()) {
+        cout << "Khong mo duoc file Student_class.csv" << endl;
+        return students;
+    }
+
+    string line;
+    // đọc từng dòng trong file
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string mssv, classID, _;
+
+        // đọc thông tin về học sinh & lớp học
+        getline(ss, mssv, ';');
+        getline(ss, classID, ';');
+        getline(ss, _); // bỏ qua data còn lại
+
+        // Nếu lớp học trùng với className được truyền vào, lấy thông tin về học sinh từ file User.csv
+        if (classID == className) {
+            ifstream userFile("User.csv");
+            if (!userFile.is_open()) {
+                cout << "Khong mo duoc file User.csv" << endl;
+                return students;
+            }
+
+            string userLine;
+            // bỏ qua dòng tiêu đề
+            getline(userFile, userLine);
+            // đọc thông tin về học sinh từ file User.csv
+            while (getline(userFile, userLine)) {
+                stringstream userSS(userLine);
+                string studentIDFromFile, fullName, gender, dateOfBirth, idCard, expires;
+
+                getline(userSS, studentIDFromFile, ';');
+                getline(userSS, fullName, ';');
+                getline(userSS, gender, ';');
+                getline(userSS, dateOfBirth, ';');
+                getline(userSS, idCard, ';');
+                getline(userSS, expires);
+
+                // nếu studentID trùng với studentIDFromFile, lưu thông tin về học sinh vào vector students
+                if (mssv == studentIDFromFile) {
+                    students.push_back({mssv, fullName, gender, dateOfBirth, idCard, expires});
+                }
+            }
+            userFile.close();
+        }
+    }
+    file.close();
+
+    return students;
+}
+
+// Hàm hiển thị danh sách học sinh
+void displayStudents(const vector<Student> &students) {
+    if (students.empty()) {
+        cout << "Khong tim thay hoc sinh nao trong lop" << endl;
+        return;
+    }
+
+    cout << "Danh sach hoc sinh trong lop:" << endl;
+    cout << "----------------------------------------------" << endl;
+    cout << "MSSV\t\tHo va ten\tGioi tinh\tNgay sinh" << endl;
+    cout << "----------------------------------------------" << endl;
+
+    for (const auto& student : students) {
+        cout << student.mssv << "\t" << student.fullName << "\t" << student.gender << "\t" << student.dateOfBirth << endl;
+    }
+    cout << "----------------------------------------------" << endl;
+}
+
+// Hàm chính để xem danh sách học sinh trong một lớp
+void viewStudentsInClass(const string& className) {
+    // Lấy thông tin về học sinh từ file Student_class.csv và hiển thị danh sách học sinh
+    cout << "Nhap ten lop can xem: ";
+    getline(cin, className);
+    vector<Student> students = getStudentsByClass(className);
+    displayStudents(students);
+}
 
 
