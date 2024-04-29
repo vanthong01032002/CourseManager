@@ -51,6 +51,20 @@ struct Semester
     Date end_date;
 };
 
+struct Student {
+    string mssv;
+    string fullName;
+    string gender;
+    string dateOfBirth;
+    string idCard;
+    string expires;
+    double total;
+    double finalGrade;
+    double midtermGrade;
+    double otherGrade;
+    double semesterGPA;
+};
+
 struct Course {
     string id;
     string semesterID;
@@ -64,21 +78,6 @@ struct Course {
     string year;
     vector<double> finalGrades; // Final grades of all students
     vector<Student> enrolledStudents;
-};
-
-struct Student {
-    string mssv;
-    string fullName;
-    string gender;
-    string dateOfBirth;
-    string idCard;
-    string expires;
-    double total;
-    double finalGrade;
-    double midtermGrade;
-    double otherGrade;
-    double semesterGPA;
-
 };
 
 struct Score {
