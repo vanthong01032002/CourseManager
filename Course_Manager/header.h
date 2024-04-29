@@ -51,21 +51,6 @@ struct Semester
     Date end_date;
 };
 
-struct Course {
-    string id;
-    string semesterID;
-    string courseName;
-    string className;
-    string teacherName;
-    int credit;
-    int maxStudents;
-    string dayOfWeek; // For example: MON / TUE / WED / THU / FRI / SAT
-    string session; // For example: S1 (07:30), S2 (09:30), S3(13:30) and S4 (15:30))
-    string year;
-    vector<double> finalGrades; // Final grades of all students
-    vector<Student> enrolledStudents;
-};
-
 struct Student {
     string mssv;
     string fullName;
@@ -79,6 +64,21 @@ struct Student {
     double otherGrade;
     double semesterGPA;
 
+};
+
+struct Course {
+    string id;
+    string semesterID;
+    string courseName;
+    string className;
+    string teacherName;
+    int credit;
+    int maxStudents;
+    string dayOfWeek; // For example: MON / TUE / WED / THU / FRI / SAT
+    string session; // For example: S1 (07:30), S2 (09:30), S3(13:30) and S4 (15:30))
+    string year;
+    vector<double> finalGrades; // Final grades of all students
+    vector<Student> enrolledStudents;
 };
 
 struct Score {
