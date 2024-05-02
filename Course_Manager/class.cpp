@@ -174,3 +174,72 @@ void viewStudentsInClass() {
     }
     _getch();
 }
+
+void viewStudentsInCourse() {
+    system("cls");
+    gotoxy(30, 3);
+    cout << "Nhap vao CourseID: ";
+    string courseID;
+    getline(cin, courseID);
+
+    ifstream courseFile("Student_course.csv");
+    if (!courseFile.is_open()) {
+        cout << "Unable to open file course.csv." << endl;
+        return;
+    }
+
+    ifstream studentFile("studentList.csv");
+    if (!studentFile.is_open()) {
+        cout << "Unable to open file student.csv." << endl;
+        return;
+    }
+
+    string courseLine, studentLine;
+    getline(courseFile, courseLine); // Skip header line
+
+    bool courseFound = false;
+
+    gotoxy(30, 5);
+    cout << "Danh sach sinh vien trong khoa hoc " << courseID << ":" << endl;
+
+    // In ra tiêu đề của bảng
+    gotoxy(30, 7);
+    cout << setw(15) << left << "StudentID" << setw(30) << left << "StudentName" << endl;
+    gotoxy(30, 7);
+    cout << setfill('-') << setw(45) << "" << setfill(' ') << endl;
+    int y = 0;
+    while (getline(courseFile, courseLine)) {
+        stringstream ss(courseLine);
+        string courseId, studentId;
+        getline(ss, courseId, ';');
+        getline(ss, studentId, ';');
+
+        if (courseId == courseID) {
+            courseFound = true;
+
+            // Đọc thông tin sinh viên từ file "student.csv"
+            while (getline(studentFile, studentLine)) {
+                stringstream studentSS(studentLine);
+                string studentID, studentName;
+                getline(studentSS, studentID, ';');
+                getline(studentSS, studentName, ';');
+
+                if (studentID == studentId) {
+                    // Hiển thị thông tin sinh viên
+                    y += 2;
+                    gotoxy(30, 7 + y);
+                    cout << setw(15) << left << studentID << setw(30) << left << studentName << endl;
+                    break; // Dừng việc tìm kiếm khi tìm thấy sinh viên
+                }
+            }
+        }
+    }
+
+    courseFile.close();
+    studentFile.close();
+
+    if (!courseFound) {
+        cout << "Khong tim thay khoa hoc " << courseID << " trong file course.csv." << endl;
+    }
+    _getch();
+}   

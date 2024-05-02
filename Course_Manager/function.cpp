@@ -57,7 +57,9 @@ void drawMenuClass(int selectedOption) {
     gotoxy(34, 16);
     cout << (selectedOption == 2 ? "> " : "  ") << "Xem danh sach sinh vien trong mot lop" << endl;
     gotoxy(34, 18);
-    cout << (selectedOption == 3 ? "> " : "  ") << "Thoat" << endl;
+    cout << (selectedOption == 3 ? "> " : "  ") << "Xem danh sach sinh vien trong mot khoa hoc" << endl;
+    gotoxy(34, 20);
+    cout << (selectedOption == 4 ? "> " : "  ") << "Thoat" << endl;
 }
 
 void drawMenuStudent(int selectedOption){
@@ -296,10 +298,10 @@ void RegistrarScreen() {
 
                     switch (_getch()) {
                     case KEY_UP:
-                        selectedOption_class = (selectedOption_class - 1 + 3) % 3;
+                        selectedOption_class = (selectedOption_class - 1 + 5) % 5;
                         break;
                     case KEY_DOWN:
-                        selectedOption_class = (selectedOption_class + 1) % 3;
+                        selectedOption_class = (selectedOption_class + 1) % 5;
                         break;
                     case KEY_ENTER:
                         if (selectedOption_class == 0) {
@@ -312,6 +314,9 @@ void RegistrarScreen() {
                             viewStudentsInClass();
                         }
                         else if (selectedOption_class == 3) {
+                            viewStudentsInCourse();
+                        }
+                        else if (selectedOption_class == 4) {
                             returnToMainMenu = true;
                         }
                         break;

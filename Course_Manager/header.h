@@ -156,6 +156,7 @@ void calculateGPA(Student students[], int count);
 double calculateOverallGPA(const Student students[], int count);
 void displayClassReport(const Student students[], int count);
 void viewStudentsInClass();
+void viewStudentsInCourse();
 
 void run();
 
