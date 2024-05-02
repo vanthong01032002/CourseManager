@@ -309,7 +309,7 @@ void RegistrarScreen() {
                             showListClass();
                         }
                         else if (selectedOption_class == 2) {
-                            viewStudentsInClass('20CLC05');
+                            viewStudentsInClass();
                         }
                         else if (selectedOption_class == 3) {
                             returnToMainMenu = true;

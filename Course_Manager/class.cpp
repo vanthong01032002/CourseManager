@@ -120,3 +120,57 @@ void showListClass() {
 
     cin.get();
 }
+
+void viewStudentsInClass() {
+    system("cls");
+    gotoxy(30, 3);
+    cout << "Nhap vao classID: ";
+    string classID;
+    getline(cin, classID);
+
+    ifstream file("student_class.csv");
+
+    if (!file.is_open()) {
+        cout << "Unable to open file student_class.csv." << endl;
+        return;
+    }
+
+    string line;
+    getline(file, line); // Skip header line
+
+    bool classFound = false;
+
+    gotoxy(30, 5);
+    cout << "Danh sach sinh vien trong lop " << classID << ":" << endl;
+
+    // In ra tiêu đề của bảng
+    gotoxy(30, 7);
+
+    cout << setw(15) << left << "MSSV" << setw(30) << left << "Ten" << endl;
+    gotoxy(30, 7);
+
+    cout << setfill('-') << setw(45) << "" << setfill(' ') << endl;
+    int y = 0;
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string mssv, className, name;
+        getline(ss, mssv, ';');
+        getline(ss, className, ';');
+        getline(ss, name, ';');
+
+        if (className == classID) {
+            classFound = true;
+            // In ra từng dòng của bảng
+            y += 2;
+            gotoxy(30, 7 + y);
+            cout << setw(15) << left << mssv << setw(30) << left << name << endl;
+        }
+    }
+
+    file.close();
+
+    if (!classFound) {
+        cout << "Khong tim thay lop " << classID << " trong file student_class.csv." << endl;
+    }
+    _getch();
+}

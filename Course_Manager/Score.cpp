@@ -257,7 +257,5 @@ void addScore() {
         }
         
     }
-
-
     _getch();
 }
