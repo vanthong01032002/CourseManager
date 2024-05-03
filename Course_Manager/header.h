@@ -63,7 +63,6 @@ struct Student {
     double midtermGrade;
     double otherGrade;
     double semesterGPA;
-
 };
 
 struct Course {
@@ -132,7 +131,7 @@ string formatId_course(int id);
 bool isValidDayOfWeek(const string& dayOfWeek);
 bool isValidSession(const string& session);
 void createCourse();
-void uploadStudentList(const Course& course);
+void uploadStudentList();
 void showListCourse();
 void updateCourseInfo();
 void addStudentToCourse();

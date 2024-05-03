@@ -91,7 +91,9 @@ void drawMenuCourse(int selectedOption) {
     gotoxy(34, 22);
     cout << (selectedOption == 5 ? "> " : "  ") << "Xoa sinh vien vao khoa hoc" << endl;
     gotoxy(34, 24);
-    cout << (selectedOption == 6 ? "> " : "  ") << "Thoat" << endl;
+    cout << (selectedOption == 6 ? "> " : "  ") << "Tai danh sach sinh vien vao khoa hoc" << endl;
+    gotoxy(34, 26);
+    cout << (selectedOption == 7 ? "> " : "  ") << "Thoat" << endl;
 }
 void drawMenuScore(int selectedOption) {
     system("cls");
@@ -242,10 +244,10 @@ void RegistrarScreen() {
 
                     switch (_getch()) {
                     case KEY_UP:
-                        selectedOption_course = (selectedOption_course - 1 + 7) % 7;
+                        selectedOption_course = (selectedOption_course - 1 + 8) % 8;
                         break;
                     case KEY_DOWN:
-                        selectedOption_course = (selectedOption_course + 1) % 7;
+                        selectedOption_course = (selectedOption_course + 1) % 8;
                         break;
                     case KEY_ENTER:
                         // tạo khóa học
@@ -273,6 +275,9 @@ void RegistrarScreen() {
                             removeStudentFromCourse();
                         }
                         else if (selectedOption_course == 6) {
+                            uploadStudentList();
+                        }
+                        else if (selectedOption_course == 7) {
                             returnToMainMenu = true;
                         }
                         break;

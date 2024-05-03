@@ -1,3 +1,4 @@
 ID;CourseName;ClassName;TeacherName;Credit;MaxStudents;DayOfWeek;Session;SemesterID;Year
 CSC001;Lap Trinh huong doi tuong;20CLC01;Truong Thinh Toan;4;55;MON;4;S001;Y002
 CSC004;Nhap mon cong nghe thong tin;20CLC02;Nguyen Van B;4;55;MON;4;SC001;Y003
+CSC002;a;a;a;1;1;MON;S1;s;S

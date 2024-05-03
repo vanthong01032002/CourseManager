@@ -25,7 +25,7 @@ bool isValidDayOfWeek(const string& dayOfWeek) {
 }
 
 bool isValidSession(const string& session) {
-	string validSessions[] = { "S1 (07:30)", "S2 (09:30)", "S3 (13:30)", "S4 (15:30)" };
+	string validSessions[] = { "S1", "S2", "S3", "S4" };
 
 	for (const string& validSession : validSessions) {
 		if (session == validSession) {
@@ -67,7 +67,7 @@ void createCourse() {
 	getline(cin, course.dayOfWeek);
 
 	gotoxy(30, 22);
-	cout << "Nhap thoi gian hoc: ";
+	cout << "Nhap thoi gian hoc (S1 (07:30), S2 (09:30), S3(13:30) and S4 (15:30)): ";
 	getline(cin, course.session);
 
 	gotoxy(30, 24);
@@ -78,13 +78,13 @@ void createCourse() {
 	cout << "Nhap nam hoc: ";
 	getline(cin, course.year);
 
-	if (!isValidDayOfWeek(course.session)) {
+	if (!isValidDayOfWeek(course.dayOfWeek)) {
 		gotoxy(30, 28);
 		cout << "Ngay hoc khong hop le. Tao khoa hoc that bai.";
 		cin.get();
 	}
 
-	if (!isValidSession(course.dayOfWeek)) {
+	if (!isValidSession(course.session)) {
 		gotoxy(30, 28);
 		cout << "Thoi gian hoc khong hop le. Tao khoa hoc that bai.";
 		cin.get();
@@ -115,7 +115,7 @@ void createCourse() {
 		stringstream ss(secondLine);
 		string id;
 		getline(ss, id, ';');
-		lastId = stoi(id.substr(1)); // Lấy số cuối cùng từ mã ID và chuyển thành số nguyên
+		lastId = stoi(id.substr(3)); // Lấy số cuối cùng từ mã ID và chuyển thành số nguyên
 	}
 
 	int nextId = lastId + 1;
@@ -136,10 +136,6 @@ void createCourse() {
 
 	gotoxy(30, 26);
 	cout << "Da tao khoa hoc " << course.courseName << " voi ID " << course.id << " trong hoc ki " << course.semesterID << endl;
-	cin.ignore();
-
-	uploadStudentList(course);
-
 	cin.get();
 }
 
@@ -203,15 +199,24 @@ void showListCourse() {
 }
 
 // Function to upload CSV file containing list of students enrolled in the course
-void uploadStudentList(const Course& course) {
+void uploadStudentList() {
+	system("cls");
+	gotoxy(30, 10);
+
+	cout << "Nhap vao CourseID: ";
+	string courseID;
+	getline(cin, courseID);
+
+	gotoxy(30, 12);
 	string fileName;
-	std::cout << "Nhap ten tep CSV chua danh sach sinh vien: ";
+	cout << "Nhap ten tep CSV chua danh sach sinh vien: ";
 
 	cin >> fileName;
+	cin.ignore();
 
 	ifstream file(fileName);
 	if (!file.is_open()) {
-		std::cout << "Khong the mo tep. Tai len danh sach sinh vien that bai." << std::endl;
+		cout << "Khong the mo tep. Tai len danh sach sinh vien that bai." << std::endl;
 		return;
 	}
 
@@ -222,13 +227,15 @@ void uploadStudentList(const Course& course) {
 	string line;
 	while (getline(file, line)) {
 		// Ghi MSSV và ID của khóa học vào tệp tin
-		studentCourseFile << line << "," << course.id << endl;
+		studentCourseFile << line << "," << courseID << endl;
 	}
+
+	gotoxy(30, 14);
+	cout << "Danh sach sinh vien da duoc luu vao tep: " << studentCourseFileName << endl;
 
 	file.close();
 	studentCourseFile.close();
-
-	std::cout << "Danh sach sinh vien da duoc luu vao tep: " << studentCourseFileName << std::endl;
+	cin.get();
 }
 void updateCourseInfo() {
 	system("cls");
