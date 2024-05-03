@@ -55,7 +55,11 @@ void drawMenuClass(int selectedOption) {
     gotoxy(34, 14);
     cout << (selectedOption == 1 ? "> " : "  ") << "Xem danh sach lop hoc" << endl;
     gotoxy(34, 16);
-    cout << (selectedOption == 2 ? "> " : "  ") << "Thoat" << endl;
+    cout << (selectedOption == 2 ? "> " : "  ") << "Xem danh sach sinh vien trong mot lop" << endl;
+    gotoxy(34, 18);
+    cout << (selectedOption == 3 ? "> " : "  ") << "Xem danh sach sinh vien trong mot khoa hoc" << endl;
+    gotoxy(34, 20);
+    cout << (selectedOption == 4 ? "> " : "  ") << "Thoat" << endl;
 }
 
 void drawMenuStudent(int selectedOption){
@@ -262,7 +266,7 @@ void RegistrarScreen() {
                         }
                         // thêm sinh viên vào khóa học
                         else if (selectedOption_course == 4) {
-                            addStudentToCourse();;
+                            addStudentToCourse();
                         }
                         // xóa sinh viên khỏi khóa học
                         else if (selectedOption_course == 5) {
@@ -294,10 +298,10 @@ void RegistrarScreen() {
 
                     switch (_getch()) {
                     case KEY_UP:
-                        selectedOption_class = (selectedOption_class - 1 + 3) % 3;
+                        selectedOption_class = (selectedOption_class - 1 + 5) % 5;
                         break;
                     case KEY_DOWN:
-                        selectedOption_class = (selectedOption_class + 1) % 3;
+                        selectedOption_class = (selectedOption_class + 1) % 5;
                         break;
                     case KEY_ENTER:
                         if (selectedOption_class == 0) {
@@ -307,6 +311,12 @@ void RegistrarScreen() {
                             showListClass();
                         }
                         else if (selectedOption_class == 2) {
+                            viewStudentsInClass();
+                        }
+                        else if (selectedOption_class == 3) {
+                            viewStudentsInCourse();
+                        }
+                        else if (selectedOption_class == 4) {
                             returnToMainMenu = true;
                         }
                         break;

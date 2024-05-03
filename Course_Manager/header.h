@@ -63,6 +63,7 @@ struct Student {
     double midtermGrade;
     double otherGrade;
     double semesterGPA;
+
 };
 
 struct Course {
@@ -154,7 +155,8 @@ void showClassScores(const string& className, const string& semester);
 void calculateGPA(Student students[], int count);
 double calculateOverallGPA(const Student students[], int count);
 void displayClassReport(const Student students[], int count);
-void viewStudentsInClass(const string& className);
+void viewStudentsInClass();
+void viewStudentsInCourse();
 
 void run();
 

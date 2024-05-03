@@ -32,27 +32,15 @@ void createClass() {
         return;
     }
 
-    // Đọc dòng đầu tiên và bỏ qua
-    string header;
-    getline(file, header);
 
-    // Đọc dòng thứ hai (nếu có)
-    string secondLine;
-    getline(file, secondLine);
-
-    file.close();
-
-    int lastId = 0;
-
-    // Nếu file chứa dữ liệu, lấy ID của dòng cuối cùng
-    if (!secondLine.empty()) {
-        stringstream ss(secondLine);
-        string id;
-        getline(ss, id, ';');
-        lastId = stoi(id.substr(1)); // Lấy số cuối cùng từ mã ID và chuyển thành số nguyên
+    int count = 0;
+    string line;
+    getline(file, line); // Bỏ qua dòng tiêu đề
+    while (getline(file, line)) {
+        count++;
     }
 
-    int nextId = lastId + 1;
+    int nextId = count + 1;
     string newId = formatId_class(nextId); // Định dạng ID mới
 
     // Mở file để ghi nội dung mới, nhưng trong chế độ thêm vào cuối
@@ -120,3 +108,126 @@ void showListClass() {
 
     cin.get();
 }
+
+void viewStudentsInClass() {
+    system("cls");
+    gotoxy(30, 3);
+    cout << "Nhap vao classID: ";
+    string classID;
+    getline(cin, classID);
+
+    ifstream file("student_class.csv");
+
+    if (!file.is_open()) {
+        cout << "Unable to open file student_class.csv." << endl;
+        return;
+    }
+
+    string line;
+    getline(file, line); // Skip header line
+
+    bool classFound = false;
+
+    gotoxy(30, 5);
+    cout << "Danh sach sinh vien trong lop " << classID << ":" << endl;
+
+    // In ra tiêu đề của bảng
+    gotoxy(30, 7);
+
+    cout << setw(15) << left << "MSSV" << setw(30) << left << "Ten" << endl;
+    gotoxy(30, 7);
+
+    cout << setfill('-') << setw(45) << "" << setfill(' ') << endl;
+    int y = 0;
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string mssv, className, name;
+        getline(ss, mssv, ';');
+        getline(ss, className, ';');
+        getline(ss, name, ';');
+
+        if (className == classID) {
+            classFound = true;
+            // In ra từng dòng của bảng
+            y += 2;
+            gotoxy(30, 7 + y);
+            cout << setw(15) << left << mssv << setw(30) << left << name << endl;
+        }
+    }
+
+    file.close();
+
+    if (!classFound) {
+        cout << "Khong tim thay lop " << classID << " trong file student_class.csv." << endl;
+    }
+    _getch();
+}
+
+void viewStudentsInCourse() {
+    system("cls");
+    gotoxy(30, 3);
+    cout << "Nhap vao CourseID: ";
+    string courseID;
+    getline(cin, courseID);
+
+    ifstream courseFile("Student_course.csv");
+    if (!courseFile.is_open()) {
+        cout << "Unable to open file course.csv." << endl;
+        return;
+    }
+
+    ifstream studentFile("studentList.csv");
+    if (!studentFile.is_open()) {
+        cout << "Unable to open file student.csv." << endl;
+        return;
+    }
+
+    string courseLine, studentLine;
+    getline(courseFile, courseLine); // Skip header line
+
+    bool courseFound = false;
+
+    gotoxy(30, 5);
+    cout << "Danh sach sinh vien trong khoa hoc " << courseID << ":" << endl;
+
+    // In ra tiêu đề của bảng
+    gotoxy(30, 7);
+    cout << setw(15) << left << "StudentID" << setw(30) << left << "StudentName" << endl;
+    gotoxy(30, 7);
+    cout << setfill('-') << setw(45) << "" << setfill(' ') << endl;
+    int y = 0;
+    while (getline(courseFile, courseLine)) {
+        stringstream ss(courseLine);
+        string courseId, studentId;
+        getline(ss, courseId, ';');
+        getline(ss, studentId, ';');
+
+        if (courseId == courseID) {
+            courseFound = true;
+
+            // Đọc thông tin sinh viên từ file "student.csv"
+            while (getline(studentFile, studentLine)) {
+                stringstream studentSS(studentLine);
+                string studentID, studentName;
+                getline(studentSS, studentID, ';');
+                getline(studentSS, studentName, ';');
+
+                if (studentID == studentId) {
+                    // Hiển thị thông tin sinh viên
+                    y += 2;
+                    gotoxy(30, 7 + y);
+                    cout << setw(15) << left << studentID << setw(30) << left << studentName << endl;
+                    break; // Dừng việc tìm kiếm khi tìm thấy sinh viên
+                }
+            }
+        }
+    }
+
+    courseFile.close();
+    studentFile.close();
+
+    if (!courseFound) {
+        cout << "Khong tim thay khoa hoc " << courseID << " trong file course.csv." << endl;
+    }
+    _getch();
+}   
