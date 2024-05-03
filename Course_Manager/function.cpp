@@ -266,7 +266,7 @@ void RegistrarScreen() {
                         }
                         // thêm sinh viên vào khóa học
                         else if (selectedOption_course == 4) {
-                            addStudentToCourse();;
+                            addStudentToCourse();
                         }
                         // xóa sinh viên khỏi khóa học
                         else if (selectedOption_course == 5) {

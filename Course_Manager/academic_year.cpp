@@ -76,28 +76,19 @@ void createYear() {
         return;
     }
 
-    // Đọc dòng đầu tiên và bỏ qua
-    string header;
-    getline(file, header);
+    int count = 0;
+    string line;
+    getline(file, line);
 
-    // Đọc dòng thứ hai (nếu có)
-    string secondLine;
-    getline(file, secondLine);
+    while (getline(file, line)) {
+        count++;
+    }
 
     file.close();
 
-    int lastId = 0;
-
-    // Nếu file chứa dữ liệu, lấy ID của dòng cuối cùng
-    if (!secondLine.empty()) {
-        stringstream ss(secondLine);
-        string id;
-        getline(ss, id, ';');
-        lastId = stoi(id.substr(1)); // Lấy số cuối cùng từ mã ID và chuyển thành số nguyên
-    }
-
-    int nextId = lastId + 1;
+    int nextId = count + 1;
     string newId = formatId_year(nextId); // Định dạng ID mới
+
 
     // Mở file để ghi nội dung mới, nhưng trong chế độ thêm vào cuối
     ofstream outFile("Year.csv", ios::app);

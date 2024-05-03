@@ -78,18 +78,16 @@ void createCourse() {
 	cout << "Nhap nam hoc: ";
 	getline(cin, course.year);
 
-	if (!isValidDayOfWeek(course.dayOfWeek)) {
+	if (!isValidDayOfWeek(course.session)) {
 		gotoxy(30, 28);
 		cout << "Ngay hoc khong hop le. Tao khoa hoc that bai.";
 		cin.get();
-		return;
 	}
 
 	if (!isValidSession(course.dayOfWeek)) {
 		gotoxy(30, 28);
 		cout << "Thoi gian hoc khong hop le. Tao khoa hoc that bai.";
 		cin.get();
-		return;
 	}
 
 	ifstream file("Course.csv");
@@ -341,19 +339,17 @@ void addStudentToCourse() {
 	if (!courseFile.is_open()) {
 		cout << "Khong the mo file." << endl;
 		cin.get();
-		return;
 	}
 
 	string studentId;
 	cout << "Nhap MSSV cua hoc vien: ";
 	cin >> studentId;
 
-	ifstream studentFile("Student.csv");
+	ifstream studentFile("studentList.csv");
 	if (!studentFile.is_open()) {
 		cout << "Khong the mo file." << endl;
 		courseFile.close();
 		cin.get();
-		return;
 	}
 
 	bool courseFound = false;
@@ -374,7 +370,6 @@ void addStudentToCourse() {
 		courseFile.close();
 		studentFile.close();
 		cin.get();
-		return;
 	}
 
 	// Check if student exists
@@ -395,7 +390,6 @@ void addStudentToCourse() {
 		courseFile.close();
 		studentFile.close();
 		cin.get();
-		return;
 	}
 
 	// Append student to course file
@@ -405,10 +399,9 @@ void addStudentToCourse() {
 		courseFile.close();
 		studentFile.close();
 		cin.get();
-		return;
 	}
 
-	outFile << studentId << ';' << courseId << endl;
+	outFile << courseId << ';' << studentId << endl;
 	outFile.close();
 
 	cout << "Da them hoc vien voi MSSV " << studentId << " vao khoa hoc voi ID " << courseId << endl;
@@ -416,6 +409,7 @@ void addStudentToCourse() {
 	courseFile.close();
 	studentFile.close();
 	cin.get();
+	_getch();
 }
 
 //Xóa học viên
@@ -453,18 +447,16 @@ void removeStudentFromCourse() {
 	if (!courseFound) {
 		cout << "Khong tim thay khoa hoc voi ID da nhap." << endl;
 		cin.get();
-		return;
 	}
 
 	string studentId;
 	cout << "Nhap MSSV cua hoc vien can xoa: ";
 	cin >> studentId;
 
-	ifstream inFile("student_course.csv");
+	ifstream inFile("Student_course.csv");
 	if (!inFile.is_open()) {
 		cout << "Khong the mo file." << endl;
 		cin.get();
-		return;
 	}
 
 	vector<string> lines; // Vector lưu trữ dữ liệu không cần xóa
@@ -489,14 +481,12 @@ void removeStudentFromCourse() {
 	if (!studentFound) {
 		cout << "Khong tim thay hoc vien voi MSSV da nhap trong khoa hoc." << endl;
 		cin.get();
-		return;
 	}
 
 	ofstream outFile("student_course.csv");
 	if (!outFile.is_open()) {
 		cout << "Khong the mo file." << endl;
 		cin.get();
-		return;
 	}
 
 	// Ghi lại toàn bộ dữ liệu từ vector vào file student_course.csv
@@ -508,6 +498,7 @@ void removeStudentFromCourse() {
 
 	cout << "Da xoa hoc vien voi MSSV " << studentId << " ra khoa hoc voi ID " << courseId << endl;
 	cin.get();
+	_getch();
 }
 
 void removeCourse() {
