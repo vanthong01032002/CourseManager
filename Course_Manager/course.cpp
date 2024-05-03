@@ -338,6 +338,7 @@ void addStudentToCourse() {
 	gotoxy(30, 10);
 	cout << "===== THEM HOC VIEN VAO KHOA HOC =====" << endl;
 
+	gotoxy(30, 12);
 	string courseId;
 	cout << "Nhap ID cua khoa hoc: ";
 	cin >> courseId;
@@ -348,6 +349,7 @@ void addStudentToCourse() {
 		cin.get();
 	}
 
+	gotoxy(30, 14);
 	string studentId;
 	cout << "Nhap MSSV cua hoc vien: ";
 	cin >> studentId;
@@ -425,6 +427,7 @@ void removeStudentFromCourse() {
 	gotoxy(30, 10);
 	cout << "===== XOA HOC VIEN RA KHOA HOC =====" << endl;
 
+	gotoxy(30, 12);
 	string courseId;
 	cout << "Nhap ID cua khoa hoc: ";
 	cin >> courseId;
@@ -456,6 +459,7 @@ void removeStudentFromCourse() {
 		cin.get();
 	}
 
+	gotoxy(30, 14);
 	string studentId;
 	cout << "Nhap MSSV cua hoc vien can xoa: ";
 	cin >> studentId;
@@ -513,9 +517,11 @@ void removeCourse() {
 	gotoxy(30, 10);
 	cout << "===== XOA KHOA HOC =====" << endl;
 
+	gotoxy(30, 12);
 	string courseId;
 	cout << "Nhap ID cua khoa hoc can xoa: ";
 	cin >> courseId;
+	cin.ignore();
 
 	ifstream inFile("Course.csv");
 	if (!inFile.is_open()) {
